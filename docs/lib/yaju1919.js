@@ -1,4 +1,4 @@
-var yaju1919_library = {
+var yaju1919 = {
     //------------------------------------------------------------------------------------------------------
     rand: function(array){ // ランダムな要素を返す
         return array[Math.floor(Math.random()*array.length)];
@@ -48,7 +48,7 @@ var yaju1919_library = {
     // テキストファイル形式で保存
     download: function(data, title){ // str: 保存する文字列, title: ファイルの名前
         if([data, title].some(function(v){
-            if(yaju1919_library.getType(v) !== "String") return true;
+            if(yaju1919.getType(v) !== "String") return true;
             return v.length === 0;
         })) return false; // 失敗
         const strText = data.replace(/\n/g,'\r\n'); // 改行を置換
@@ -73,17 +73,17 @@ var yaju1919_library = {
     //------------------------------------------------------------------------------------------------------
     _analysisParam: function(param, default_param){ // param: 不定, default_param: 受け取るパラメータの設定&初期値
         var p = param, result = {};
-        if(yaju1919_library.getType(p) !== "Object") p = {};
+        if(yaju1919.getType(p) !== "Object") p = {};
         for(var key in default_param){
-            var default_type = yaju1919_library.getType(default_param[key]);
-            var type = yaju1919_library.getType(p[key]);
+            var default_type = yaju1919.getType(default_param[key]);
+            var type = yaju1919.getType(p[key]);
             result[key] = type === default_type ? p[key] : default_param[key];
         }
         return result;
     },
     // 文字列入力欄を追加
     addInputText: function(parentNode, param){
-        var p = yaju1919_library._analysisParam(param,{
+        var p = yaju1919._analysisParam(param,{
             id: '', // HTML
             class: '', // HTML
             title: '', // タイトル
@@ -105,11 +105,11 @@ var yaju1919_library = {
         }
         function change(){
             var v = i.val().trim();
-            if(p.hankaku) v = yaju1919_library.toHan(v);
+            if(p.hankaku) v = yaju1919.toHan(v);
             if(v.length > p.max) v = v.slice(0, p.max);
             i.val(v);
             p.change(v);
-            if(p.save) yaju1919_library.save(p.save, v);
+            if(p.save) yaju1919.save(p.save, v);
         }
         var i = $(p.textarea ? "<textarea>" : "<input>").appendTo(h)
         .attr({
@@ -126,7 +126,7 @@ var yaju1919_library = {
         if(p.id !== '') i.attr('id', p.id);
         if(p.class !== '') i.addClass(p.class);
         if(p.save) {
-            yaju1919_library.load(p.save, function(v){
+            yaju1919.load(p.save, function(v){
                 i.val(v);
                 change();
             });
@@ -137,7 +137,7 @@ var yaju1919_library = {
     },
     // 数字入力欄を追加
     addInputNumber: function(parentNode, param){
-        var p = yaju1919_library._analysisParam(param,{
+        var p = yaju1919._analysisParam(param,{
             id: '', // HTML
             class: '', // HTML
             title: '', // タイトル
@@ -154,7 +154,7 @@ var yaju1919_library = {
         var h = $("<span>").appendTo($(parentNode));
         if(p.title) h.append(p.title + "：");
         function change(){
-            var n = Number(yaju1919_library.toHan(i.val()).replace(/[^0-9e\.\-\+]/g,""));
+            var n = Number(yaju1919.toHan(i.val()).replace(/[^0-9e\.\-\+]/g,""));
             i.css({backgroundColor: "white"});
             if(isNaN(n)) {
                 n = '';
@@ -166,7 +166,7 @@ var yaju1919_library = {
             var v = String(n);
             i.val(v);
             p.change(n);
-            if(p.save) yaju1919_library.save(p.save, v);
+            if(p.save) yaju1919.save(p.save, v);
         }
         var i = $("<input>").appendTo(h)
         .attr('placeholder',p.placeholder)
@@ -180,7 +180,7 @@ var yaju1919_library = {
         if(p.id !== '') i.attr('id', p.id);
         if(p.class !== '') i.addClass(p.class);
         if(p.save) {
-            yaju1919_library.load(p.save, function(v){
+            yaju1919.load(p.save, function(v){
                 i.val(v);
                 change();
             });
@@ -191,7 +191,7 @@ var yaju1919_library = {
     },
     // 数字入力欄を追加
     addInputBool: function(parentNode, param){
-        var p = yaju1919_library._analysisParam(param,{
+        var p = yaju1919._analysisParam(param,{
             id: '', // HTML
             class: '', // HTML
             title: '', // タイトル
@@ -203,7 +203,7 @@ var yaju1919_library = {
             btn.css("background-color", flag ? "orange" : "gray");
             check.prop("checked", flag);
             if(change) change(flag);
-            if(p.save) yaju1919_library.save(p.save, flag);
+            if(p.save) yaju1919.save(p.save, flag);
         }
         var flag = p.value;
         var btn = $("<button>").appendTo($(parentNode)).text(p.title).click(function(){
@@ -214,7 +214,7 @@ var yaju1919_library = {
         if(p.class !== '') btn.addClass(p.class);
         var check = $("<input>",{type:"checkbox"}).prependTo(btn);
         if(p.save) {
-            yaju1919_library.load(p.save, function(v){
+            yaju1919.load(p.save, function(v){
                 if(v !== "true") return;
                 flag = v;
                 change();
@@ -226,7 +226,7 @@ var yaju1919_library = {
     },
     // 選択肢を追加
     addSelect: function(parentNode, param){
-        var p = yaju1919_library._analysisParam(param,{
+        var p = yaju1919._analysisParam(param,{
             id: '', // HTML
             class: '', // HTML
             title: '', // タイトル
@@ -247,7 +247,7 @@ var yaju1919_library = {
         function change(){
             var v = s.val();
             p.change(v);
-            if(p.save) yaju1919_library.save(p.save, v);
+            if(p.save) yaju1919.save(p.save, v);
         }
         var s = $("<select>").appendTo(h)
         .change(change).val(String(p.value))
@@ -260,7 +260,7 @@ var yaju1919_library = {
         if(p.class !== '') s.addClass(p.class);
         update();
         if(p.save) {
-            yaju1919_library.load(p.save, function(v){
+            yaju1919.load(p.save, function(v){
                 s.val(v);
                 change();
             });
