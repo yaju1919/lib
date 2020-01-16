@@ -204,7 +204,7 @@ var yaju1919 = {
         function change(){
             btn.css("background-color", flag ? "orange" : "gray");
             check.prop("checked", flag);
-            if(change) change(flag);
+            if(p.change) p.change(flag);
             if(p.save) yaju1919.save(p.save, flag);
         }
         var flag = p.value;
