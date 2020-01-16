@@ -153,19 +153,21 @@ var yaju1919 = {
             max: Infinity, // 入力可能な最大値
             int: false, // trueなら自動で整数化
         });
-        var h = $("<span>").appendTo($(parentNode));
+        var lastInput, h = $("<span>").appendTo($(parentNode));
         if(p.title !== '') h.append(p.title + "：");
         function change(){
-            var n = Number(yaju1919.toHan(i.val()).replace(/[^0-9e\.\-\+]/g,""));
+            var n = Number(yaju1919.toHan(i.val()).replace(/[^0-9\.\-\+]/g,""));
             i.css({backgroundColor: "white"});
             if(isNaN(n)) {
-                n = '';
+                n = lastInput || p.value; //a
                 i.css({backgroundColor: "pink"});
+                return;
             }
             else if(n < p.min) n = p.min;
             else if(n > p.max) n = p.max;
             if(p.int) n = Math.floor(n);
             var v = String(n);
+            lastInput = v;
             i.val(v);
             p.change(n);
             yaju1919.save(p.save, v);
@@ -189,7 +191,7 @@ var yaju1919 = {
             return Number(i.val());
         };
     },
-    // 数字入力欄を追加
+    // ONOFFボタンを追加
     addInputBool: function(parentNode, param){
         var p = yaju1919.setDefaultValue(param,{
             id: '', // HTML
