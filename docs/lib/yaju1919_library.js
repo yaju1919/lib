@@ -84,6 +84,8 @@ var yaju1919_library = {
     // 文字列入力欄を追加
     addInputText: function(parentNode, param){
         var p = yaju1919_library._analysisParam(param,{
+            id: '', // HTML
+            class: '', // HTML
             title: '', // タイトル
             placeholder: '', // 説明文
             value: '', // 初期値
@@ -110,7 +112,9 @@ var yaju1919_library = {
             if(p.save) yaju1919_library.save(p.save, v);
         }
         var i = $(p.textarea ? "<textarea>" : "<input>").appendTo(h)
-        .attr('placeholder',p.placeholder)
+        .attr({
+            placeholder: p.placeholder
+        })
         .change(change).val(String(p.value))
         .keyup(resize).click(resize)
         .keypress(function(e){
@@ -119,6 +123,8 @@ var yaju1919_library = {
             maxWidth: p.width,
             minWidth: p.width
         });
+        if(p.id !== '') i.attr('id', p.id);
+        if(p.class !== '') i.addClass(p.class);
         if(p.save) {
             yaju1919_library.load(p.save, function(v){
                 i.val(v);
@@ -132,6 +138,8 @@ var yaju1919_library = {
     // 数字入力欄を追加
     addInputNumber: function(parentNode, param){
         var p = yaju1919_library._analysisParam(param,{
+            id: '', // HTML
+            class: '', // HTML
             title: '', // タイトル
             placeholder: '', // 説明文
             value: '', // 初期値
@@ -169,6 +177,8 @@ var yaju1919_library = {
             maxWidth: p.width,
             minWidth: p.width
         });
+        if(p.id !== '') i.attr('id', p.id);
+        if(p.class !== '') i.addClass(p.class);
         if(p.save) {
             yaju1919_library.load(p.save, function(v){
                 i.val(v);
@@ -182,6 +192,8 @@ var yaju1919_library = {
     // 数字入力欄を追加
     addInputBool: function(parentNode, param){
         var p = yaju1919_library._analysisParam(param,{
+            id: '', // HTML
+            class: '', // HTML
             title: '', // タイトル
             value: false, // 初期値
             change: function(){}, // 値が変更されたとき実行する関数
@@ -198,6 +210,8 @@ var yaju1919_library = {
             flag = !flag;
             change();
         });
+        if(p.id !== '') btn.attr('id', p.id);
+        if(p.class !== '') btn.addClass(p.class);
         var check = $("<input>",{type:"checkbox"}).prependTo(btn);
         if(p.save) {
             yaju1919_library.load(p.save, function(v){
@@ -213,6 +227,8 @@ var yaju1919_library = {
     // 選択肢を追加
     addSelect: function(parentNode, param){
         var p = yaju1919_library._analysisParam(param,{
+            id: '', // HTML
+            class: '', // HTML
             title: '', // タイトル
             value: false, // 初期値
             change: function(){}, // 値が変更されたとき実行する関数
@@ -240,6 +256,8 @@ var yaju1919_library = {
             maxWidth: p.width,
             minWidth: p.width
         });
+        if(p.id !== '') s.attr('id', p.id);
+        if(p.class !== '') s.addClass(p.class);
         update();
         if(p.save) {
             yaju1919_library.load(p.save, function(v){
