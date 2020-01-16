@@ -63,9 +63,11 @@ var yaju1919 = {
     },
     //------------------------------------------------------------------------------------------------------
     save: function(key, value){ // 文字列の保存
+        if(key === '') return;
         localStorage.setItem(key, value);
     },
     load: function(key, callback){ // 保存した文字列の読み込み
+        if(key === '') return;
         var data = localStorage.getItem(key);
         if(data === null) return;
         callback(data);
@@ -100,7 +102,7 @@ var yaju1919 = {
             textarea: false, // trueならtextarea要素になる
         });
         var h = $("<span>").appendTo($(parentNode));
-        if(p.title) h.append(p.title + "：");
+        if(p.title !== '') h.append(p.title + "：");
         function resize(){
             if(!p.textarea) return;
             i.height((i.val().split('\n').length + 2) + "em");
@@ -111,7 +113,7 @@ var yaju1919 = {
             if(v.length > p.max) v = v.slice(0, p.max);
             i.val(v);
             p.change(v);
-            if(p.save) yaju1919.save(p.save, v);
+            yaju1919.save(p.save, v);
         }
         var i = $(p.textarea ? "<textarea>" : "<input>").appendTo(h)
         .attr({
@@ -127,12 +129,10 @@ var yaju1919 = {
         });
         if(p.id !== '') i.attr('id', p.id);
         if(p.class !== '') i.addClass(p.class);
-        if(p.save) {
-            yaju1919.load(p.save, function(v){
-                i.val(v);
-                change();
-            });
-        }
+        yaju1919.load(p.save, function(v){
+            i.val(v);
+            change();
+        });
         return function(){
             return i.val();
         };
@@ -154,7 +154,7 @@ var yaju1919 = {
             int: false, // trueなら自動で整数化
         });
         var h = $("<span>").appendTo($(parentNode));
-        if(p.title) h.append(p.title + "：");
+        if(p.title !== '') h.append(p.title + "：");
         function change(){
             var n = Number(yaju1919.toHan(i.val()).replace(/[^0-9e\.\-\+]/g,""));
             i.css({backgroundColor: "white"});
@@ -168,7 +168,7 @@ var yaju1919 = {
             var v = String(n);
             i.val(v);
             p.change(n);
-            if(p.save) yaju1919.save(p.save, v);
+            yaju1919.save(p.save, v);
         }
         var i = $("<input>").appendTo(h)
         .attr('placeholder',p.placeholder)
@@ -181,12 +181,10 @@ var yaju1919 = {
         });
         if(p.id !== '') i.attr('id', p.id);
         if(p.class !== '') i.addClass(p.class);
-        if(p.save) {
-            yaju1919.load(p.save, function(v){
-                i.val(v);
-                change();
-            });
-        }
+        yaju1919.load(p.save, function(v){
+            i.val(v);
+            change();
+        });
         return function(){
             return Number(i.val());
         };
@@ -204,8 +202,8 @@ var yaju1919 = {
         function change(){
             btn.css("background-color", flag ? "orange" : "gray");
             check.prop("checked", flag);
-            if(p.change) p.change(flag);
-            if(p.save) yaju1919.save(p.save, flag);
+            p.change(flag);
+            yaju1919.save(p.save, flag);
         }
         var flag = p.value;
         var btn = $("<button>").appendTo($(parentNode)).text(p.title).click(function(){
@@ -215,13 +213,11 @@ var yaju1919 = {
         if(p.id !== '') btn.attr('id', p.id);
         if(p.class !== '') btn.addClass(p.class);
         var check = $("<input>",{type:"checkbox"}).prependTo(btn);
-        if(p.save) {
-            yaju1919.load(p.save, function(v){
-                if(v !== "true") return;
-                flag = v;
-                change();
-            });
-        }
+        yaju1919.load(p.save, function(v){
+            if(v !== "true") return;
+            flag = v;
+            change();
+        });
         return function(){
             return flag;
         };
@@ -239,7 +235,7 @@ var yaju1919 = {
             list: {}, // 選択肢の連想配列
         });
         var h = $("<span>").appendTo($(parentNode));
-        if(p.title) h.append(p.title + "：");
+        if(p.title !== '') h.append(p.title + "：");
         function update(){
             var v = s.val();
             s.empty();
@@ -249,7 +245,7 @@ var yaju1919 = {
         function change(){
             var v = s.val();
             p.change(v);
-            if(p.save) yaju1919.save(p.save, v);
+            yaju1919.save(p.save, v);
         }
         var s = $("<select>").appendTo(h)
         .change(change).val(String(p.value))
@@ -261,12 +257,10 @@ var yaju1919 = {
         if(p.id !== '') s.attr('id', p.id);
         if(p.class !== '') s.addClass(p.class);
         update();
-        if(p.save) {
-            yaju1919.load(p.save, function(v){
-                s.val(v);
-                change();
-            });
-        }
+        yaju1919.load(p.save, function(v){
+            s.val(v);
+            change();
+        });
         return function(){
             return s.val();
         };
