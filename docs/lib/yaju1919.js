@@ -71,7 +71,8 @@ var yaju1919 = {
         callback(data);
     },
     //------------------------------------------------------------------------------------------------------
-    _analysisParam: function(param, default_param){ // param: 不定, default_param: 受け取るパラメータの設定&初期値
+    // 第二引数の型が異なる場合、第一引数にデフォルト値が設定される。
+    setDefaultValue: function(param, default_param){ // param: 不定, default_param: 受け取るパラメータの設定&初期値
         var p = param, result = {};
         if(yaju1919.getType(p) !== "Object") p = {};
         for(var key in default_param){
@@ -81,9 +82,10 @@ var yaju1919 = {
         }
         return result;
     },
+    //------------------------------------------------------------------------------------------------------
     // 文字列入力欄を追加
     addInputText: function(parentNode, param){
-        var p = yaju1919._analysisParam(param,{
+        var p = yaju1919.setDefaultValue(param,{
             id: '', // HTML
             class: '', // HTML
             title: '', // タイトル
@@ -137,7 +139,7 @@ var yaju1919 = {
     },
     // 数字入力欄を追加
     addInputNumber: function(parentNode, param){
-        var p = yaju1919._analysisParam(param,{
+        var p = yaju1919.setDefaultValue(param,{
             id: '', // HTML
             class: '', // HTML
             title: '', // タイトル
@@ -191,7 +193,7 @@ var yaju1919 = {
     },
     // 数字入力欄を追加
     addInputBool: function(parentNode, param){
-        var p = yaju1919._analysisParam(param,{
+        var p = yaju1919.setDefaultValue(param,{
             id: '', // HTML
             class: '', // HTML
             title: '', // タイトル
@@ -226,7 +228,7 @@ var yaju1919 = {
     },
     // 選択肢を追加
     addSelect: function(parentNode, param){
-        var p = yaju1919._analysisParam(param,{
+        var p = yaju1919.setDefaultValue(param,{
             id: '', // HTML
             class: '', // HTML
             title: '', // タイトル
