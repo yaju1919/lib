@@ -96,7 +96,7 @@ var yaju1919_library = {
             max: Infinity, // 入力可能な最大長
             textarea: false, // trueならtextarea要素になる
         });
-        var h = $("<span>").appendTo(parent);
+        var h = $("<span>").appendTo(parentNode);
         if(p.title) h.append(p.title + "：");
         function resize(){
             if(!p.textarea) return;
@@ -144,7 +144,7 @@ var yaju1919_library = {
             max: Infinity, // 入力可能な最大値
             int: false, // trueなら自動で整数化
         });
-        var h = $("<span>").appendTo(parent);
+        var h = $("<span>").appendTo(parentNode);
         if(p.title) h.append(p.title + "：");
         function change(){
             var n = Number(yaju1919_library.toHan(i.val()).replace(/[^0-9e\.\-\+]/g,""));
@@ -195,7 +195,7 @@ var yaju1919_library = {
             if(p.save) yaju1919_library.save(p.save, flag);
         }
         var flag = p.value;
-        var btn = $("<button>").appendTo(parent).text(p.title).click(function(){
+        var btn = $("<button>").appendTo(parentNode).text(p.title).click(function(){
             flag = !flag;
             change();
         });
@@ -221,7 +221,7 @@ var yaju1919_library = {
             width: '90%', // 入力欄の幅
             list: {}, // 選択肢の連想配列
         });
-        var h = $("<span>").appendTo(parent);
+        var h = $("<span>").appendTo(parentNode);
         if(p.title) h.append(p.title + "：");
         function update(){
             var v = s.val();
