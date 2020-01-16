@@ -1,5 +1,4 @@
 var yaju1919_library = {
-    win: window.unsafeWindow || window,
     //------------------------------------------------------------------------------------------------------
     rand: function(array){ // ランダムな要素を返す
         return array[Math.floor(Math.random()*array.length)];
