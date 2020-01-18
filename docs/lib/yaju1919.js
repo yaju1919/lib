@@ -32,8 +32,27 @@ var yaju1919 = {
         });
     },
     //------------------------------------------------------------------------------------------------------
+    findURL: function(str){ // 与えられた文字列からURL文字列を探す
+        var m = str.match(/(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/);
+        if(!m) return null;
+        return m[0];
+    },
+    // 以下2つとも引数の指定が無ければ現在閲覧しているサイトのURLが入る
     getDomein: function(url){ // URLのドメインを抽出し、逆順の配列にして返す
-        return url.replace(/^.+?\/\/|\/.*$/g,'').split('.').reverse();
+        var a = url || location.href;
+        return a.replace(/^.+?\/\/|\/.*$/g,'').split('.').reverse();
+    },
+    getParam: function(url){ // URLのクエリパラメータを連想配列形式で取得
+        var a = url || location.href,
+            p = {};
+        var q = a.split('?');
+        if(q.length === 1) return {};
+        q[1].split('&').map(function(v){
+            var ar = v.split('=');
+            if(ar.length !== 2) return;
+            p[ar[0]] = ar[1];
+        });
+        return p;
     },
     //------------------------------------------------------------------------------------------------------
     copy: function(str){ // クリップボードにコピーする
