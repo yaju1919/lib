@@ -96,7 +96,7 @@ var yaju1919 = {
             change: function(){}, // 値が変更されたとき実行する関数
             enter: function(){}, // Enterキーで実行する関数
             save: '', // 変更された値を保存する領域
-            width: '90%', // 入力欄の幅
+            width: '50%', // 入力欄の幅
             hankaku: true, // trueなら自動で半角化
             max: Infinity, // 入力可能な最大長
             textarea: false, // trueならtextarea要素になる
@@ -148,7 +148,7 @@ var yaju1919 = {
             change: function(){}, // 値が変更されたとき実行する関数
             enter: function(){}, // Enterキーで実行する関数
             save: '', // 変更された値を保存する領域
-            width: '90%', // 入力欄の幅
+            width: '50%', // 入力欄の幅
             min: 0, // 入力可能な最小値
             max: Infinity, // 入力可能な最大値
             int: false, // trueなら自動で整数化
@@ -159,7 +159,7 @@ var yaju1919 = {
             var n = Number(yaju1919.toHan(i.val()).replace(/[^0-9\.\-\+]/g,""));
             i.css({backgroundColor: "white"});
             if(isNaN(n)) {
-                n = lastInput || p.value; //a
+                i.val(lastInput || p.value || '');
                 i.css({backgroundColor: "pink"});
                 return;
             }
@@ -233,7 +233,7 @@ var yaju1919 = {
             value: false, // 初期値
             change: function(){}, // 値が変更されたとき実行する関数
             save: '', // 変更された値を保存する領域
-            width: '90%', // 入力欄の幅
+            width: '50%', // 入力欄の幅
             list: {}, // 選択肢の連想配列
         });
         var h = $("<span>").appendTo($(parentNode));
