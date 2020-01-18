@@ -51,10 +51,10 @@ var yaju1919 = {
             if(yaju1919.getType(v) !== "String") return true;
             return v.length === 0;
         })) return false; // 失敗
-        const strText = data.replace(/\n/g,'\r\n'); // 改行を置換
-        const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);// 文字化け対策
-        const blob = new Blob([bom, strText], {type: "text/plain"});
-        const a = document.createElement("a");
+        var strText = data.replace(/\n/g,'\r\n'); // 改行を置換
+        var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);// 文字化け対策
+        var blob = new Blob([bom, strText], {type: "text/plain"});
+        var a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
         a.target = '_blank';
         a.download = title + '.txt';
