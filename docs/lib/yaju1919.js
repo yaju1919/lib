@@ -1,5 +1,8 @@
 var yaju1919 = {
     //------------------------------------------------------------------------------------------------------
+    randInt: function(min, max){ // ランダムな整数を返す
+        return Math.floor(Math.random()*(max - min + 1)) + min;
+    },
     rand: function(array){ // ランダムな要素を返す
         return array[Math.floor(Math.random()*array.length)];
     },
