@@ -272,7 +272,7 @@ var yaju1919 = {
         function update(){
             var v = s.val();
             s.empty();
-            for(const k in p.list) $("<option>",{text:k}).val(p.list[k]).appendTo(s);
+            for(var k in p.list) $("<option>",{text:k}).val(p.list[k]).appendTo(s);
             if(v) s.val(v);
         }
         function change(){
