@@ -1,5 +1,8 @@
 var yaju1919 = {
     //------------------------------------------------------------------------------------------------------
+    rand: function(array){ // ランダムな要素を返す
+        return array[Math.floor(Math.random()*array.length)];
+    },
     randInt: function(min, max){ // ランダムな整数を返す
         var min2, max2;
         if(min < max){
@@ -11,9 +14,6 @@ var yaju1919 = {
             max2 = min;
         }
         return Math.floor(Math.random()*(max2 - min2 + 1)) + min2;
-    },
-    rand: function(array){ // ランダムな要素を返す
-        return array[Math.floor(Math.random()*array.length)];
     },
     getTime: function(){ // xx:yy:zz の形式で現在時刻の文字列を返す
         return new Date().toString().match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)[0];
