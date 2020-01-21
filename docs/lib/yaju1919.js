@@ -4,22 +4,27 @@ var yaju1919 = {
         return array[Math.floor(Math.random()*array.length)];
     },
     randInt: function(min, max){ // ランダムな整数を返す
-        var min2, max2;
-        if(min < max){
-            min2 = min;
-            max2 = max;
-        }
-        else {
-            min2 = max;
-            max2 = min;
-        }
-        return Math.floor(Math.random()*(max2 - min2 + 1)) + min2;
+        return Math.floor(Math.random() * Math.abs(max - min + 1)) + min;
     },
     getTime: function(){ // xx:yy:zz の形式で現在時刻の文字列を返す
         return new Date().toString().match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)[0];
     },
-    getType: function(a){ // 型を返す
-        return Object.prototype.toString.call(a).replace(/\[object |\]/g,"");
+    getType: function(x){ // 型を返す
+        return Object.prototype.toString.call(x).replace(/\[object |\]/g,'');
+        // return value sample
+        // "String","Number","Boolean","Array","Object","RegExp",
+        // "Function","Null","Undefined"
+    },
+    judgeType: function(x, typeName){ // typeName: 文字列または配列、xが指定された型名ならtrueを返す
+        var type = yaju1919.getType(x);
+        switch(yaju1919.getType(typeName)){
+            case "String":
+                return typeName === type;
+            case "Array":
+                return typeName.indexOf(type) !== -1;
+            default:
+                return null;
+        }
     },
     //------------------------------------------------------------------------------------------------------
     // 文字列操作
@@ -44,10 +49,9 @@ var yaju1919 = {
         });
     },
     //------------------------------------------------------------------------------------------------------
-    findURL: function(str){ // 与えられた文字列からURL文字列を探す
-        var m = str.match(/(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/);
-        if(!m) return null;
-        return m[0];
+    makeArrayURL: function(str){ // 与えられた文字列からURL文字列を探し、配列を返す
+        var m = str.match(/(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)/g);
+        return m ? m : [];
     },
     // 以下2つとも引数の指定が無ければ現在閲覧しているサイトのURLが入る
     getDomein: function(url){ // URLのドメインを抽出し、逆順の配列にして返す
@@ -77,12 +81,10 @@ var yaju1919 = {
         return true;
     },
     // テキストファイル形式で保存
-    download: function(data, title){ // str: 保存する文字列, title: ファイルの名前
-        if([data, title].some(function(v){
-            if(yaju1919.getType(v) !== "String") return true;
-            return v.length === 0;
-        })) return false; // 失敗
-        var strText = data.replace(/\n/g,'\r\n'); // 改行を置換
+    download: function(str, title){ // str: 保存する文字列, title: ファイルの名前
+        if(!yaju1919.judgeType(str,"String") || str === '') return false; // 失敗
+        if(!yaju1919.judgeType(title,"String") || title === '') return false; // 失敗
+        var strText = str.replace(/\n/g,'\r\n'); // 改行を置換
         var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);// 文字化け対策
         var blob = new Blob([bom, strText], {type: "text/plain"});
         var a = document.createElement("a");
@@ -93,29 +95,37 @@ var yaju1919 = {
         return true; // 成功
     },
     //------------------------------------------------------------------------------------------------------
+    makeSaveKey: function(key){ // URLごとにlocalStrageで保存する領域を分けるためのキーを作成
+        if(!yaju1919.judgeType(key,"String") || key === '') return false;
+        return location.href.replace(/[:#\?].*$/g,'') + '|' + key; // URLのパラメータなどは除く
+    },
     save: function(key, value){ // 文字列の保存
-        if(key === '') return;
-        localStorage.setItem(key, value);
+        var SaveKey = yaju1919.makeSaveKey(key);
+        if(!SaveKey) return false;
+        localStorage.setItem(SaveKey, value);
+        return true;
     },
     load: function(key, callback){ // 保存した文字列の読み込み
-        if(key === '') return;
-        var data = localStorage.getItem(key);
-        if(data === null) return;
+        var SaveKey = yaju1919.makeSaveKey(key);
+        if(!SaveKey) return false;
+        var data = localStorage.getItem(SaveKey);
+        if(data === null) return false;
         callback(data);
+        return true;
     },
     //------------------------------------------------------------------------------------------------------
     // 第二引数の型が異なる場合、第一引数にデフォルト値が設定される。
     setDefaultValue: function(param, default_param){ // param: 不定, default_param: 受け取るパラメータの設定&初期値
-        var p = param, result = {};
-        if(yaju1919.getType(p) !== "Object") p = {};
+        if(!yaju1919.judgeType(param,"Object")) param = {};
         for(var key in default_param){
             var default_type = yaju1919.getType(default_param[key]);
-            var type = yaju1919.getType(p[key]);
-            result[key] = type === default_type ? p[key] : default_param[key];
+            var type = yaju1919.getType(param[key]);
+            if(type !== default_type) param[key] = default_param[key];
         }
-        return result;
+        return param;
     },
     //------------------------------------------------------------------------------------------------------
+    // これより下は特筆しない限り、返り値は入力値を返す関数
     // 文字列入力欄を追加
     addInputText: function(parentNode, param){
         var p = yaju1919.setDefaultValue(param,{
@@ -142,24 +152,25 @@ var yaju1919 = {
             var v = i.val().trim();
             if(p.hankaku) v = yaju1919.toHan(v);
             if(v.length > p.max) v = v.slice(0, p.max);
+            var re = p.change(v);
+            if(yaju1919.judgeType(re,"String")) v = re;
             i.val(v);
-            p.change(v);
             yaju1919.save(p.save, v);
         }
         var i = $(p.textarea ? "<textarea>" : "<input>").appendTo(h)
         .attr({
             placeholder: p.placeholder
         })
-        .change(change).val(String(p.value))
         .keyup(resize).click(resize)
         .keypress(function(e){
             if(e.key === 'Enter') p.enter();
         }).css({
             maxWidth: p.width,
             minWidth: p.width
-        });
+        }).change(change).val(String(p.value));
         if(p.id !== '') i.attr('id', p.id);
         if(p.class !== '') i.addClass(p.class);
+        change();
         yaju1919.load(p.save, function(v){
             i.val(v);
             change();
@@ -187,7 +198,7 @@ var yaju1919 = {
         var lastInput, h = $("<span>").appendTo($(parentNode));
         if(p.title !== '') h.append(p.title + "：");
         function change(){
-            var n = Number(yaju1919.toHan(i.val()).replace(/[^0-9\.\-\+]/g,""));
+            var n = Number(yaju1919.toHan(i.val().trim()).replace(/[^0-9\.\-\+]/g,""));
             i.css({backgroundColor: "white"});
             if(isNaN(n)) {
                 i.val(lastInput || p.value || '');
@@ -197,23 +208,24 @@ var yaju1919 = {
             else if(n < p.min) n = p.min;
             else if(n > p.max) n = p.max;
             if(p.int) n = Math.floor(n);
+            var re = p.change(n);
+            if(yaju1919.judgeType(re,"Number")) n = re;
             var v = String(n);
-            lastInput = v;
             i.val(v);
-            p.change(n);
+            lastInput = v;
             yaju1919.save(p.save, v);
         }
         var i = $("<input>").appendTo(h)
         .attr('placeholder',p.placeholder)
-        .change(change).val(String(p.value))
         .keypress(function(e){
             if(e.key === 'Enter') p.enter();
         }).css({
             maxWidth: p.width,
             minWidth: p.width
-        });
+        }).change(change).val(String(p.value));
         if(p.id !== '') i.attr('id', p.id);
         if(p.class !== '') i.addClass(p.class);
+        change();
         yaju1919.load(p.save, function(v){
             i.val(v);
             change();
@@ -225,18 +237,19 @@ var yaju1919 = {
     // ONOFFボタンを追加
     addInputBool: function(parentNode, param){
         var p = yaju1919.setDefaultValue(param,{
-            id: '', // HTML
-            class: '', // HTML
+            id: '', // HTML(button)
+            class: '', // HTML(button)
             title: '', // タイトル
             value: false, // 初期値
             change: function(){}, // 値が変更されたとき実行する関数
             save: '', // 変更された値を保存する領域
         });
         function change(){
+            var re = p.change(flag);
+            if(yaju1919.judgeType(re,"Boolean")) flag = re;
             btn.css("background-color", flag ? "orange" : "gray");
             check.prop("checked", flag);
-            p.change(flag);
-            yaju1919.save(p.save, flag);
+            yaju1919.save(p.save, flag ? '1' : '0');
         }
         var flag = p.value;
         var btn = $("<button>").appendTo($(parentNode)).text(p.title).click(function(){
@@ -246,8 +259,9 @@ var yaju1919 = {
         if(p.id !== '') btn.attr('id', p.id);
         if(p.class !== '') btn.addClass(p.class);
         var check = $("<input>",{type:"checkbox"}).prependTo(btn);
+        change();
         yaju1919.load(p.save, function(v){
-            if(v !== "true") return;
+            if(v !== '1') return;
             flag = v;
             change();
         });
@@ -258,8 +272,8 @@ var yaju1919 = {
     // 選択肢を追加
     addSelect: function(parentNode, param){
         var p = yaju1919.setDefaultValue(param,{
-            id: '', // HTML
-            class: '', // HTML
+            id: '', // HTML(select)
+            class: '', // HTML(select)
             title: '', // タイトル
             value: false, // 初期値
             change: function(){}, // 値が変更されたとき実行する関数
@@ -277,19 +291,21 @@ var yaju1919 = {
         }
         function change(){
             var v = s.val();
-            p.change(v);
+            var re = p.change(v);
+            if(yaju1919.judgeType(re,"String")) v = re;
+            s.val(v);
             yaju1919.save(p.save, v);
         }
         var s = $("<select>").appendTo(h)
-        .change(change).val(String(p.value))
         .click(update).on('update', update)
         .css({
             maxWidth: p.width,
             minWidth: p.width
-        });
+        }).change(change).val(String(p.value));
         if(p.id !== '') s.attr('id', p.id);
         if(p.class !== '') s.addClass(p.class);
         update();
+        change();
         yaju1919.load(p.save, function(v){
             s.val(v);
             change();
@@ -298,4 +314,17 @@ var yaju1919 = {
             return s.val();
         };
     },
+    // ボタンで表示を切り替えられる非表示エリアを追加(返り値は非表示エリアの要素)
+    addHideArea: function(parentNode, param){
+        var p = yaju1919.setDefaultValue(param,{ // addInputBool参照
+            speed: 300, // 表示するスピード[秒]
+        });
+        var front = $("<span>").appendTo($(parentNode));
+        var area = $("<div>").appendTo($(parentNode));
+        p.change = function(flag){ // changeはこの関数が使うので設定しても反映されない
+            area[flag ? "show" : "hide"](p.speed);
+        }
+        var btn = yaju1919.addInputBool(front, p);
+        return area;
+    }
 };
