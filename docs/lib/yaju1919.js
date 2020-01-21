@@ -258,8 +258,7 @@ var yaju1919 = {
         if(p.class !== '') btn.addClass(p.class);
         var check = $("<input>",{type:"checkbox"}).prependTo(btn);
         yaju1919.load(p.save, function(v){
-            if(v !== '1') return;
-            flag = v;
+            flag = (v === '1');
         });
         change();
         return function(){
@@ -313,7 +312,7 @@ var yaju1919 = {
     // ボタンで表示を切り替えられる非表示エリアを追加
     addHideArea: function(parentNode, param){
         var p = yaju1919.setDefaultValue(param,{ // addInputBool参照
-            id2: '', // HTML(div)
+            id2: '', // HTML(div) 非表示エリアのdiv要素
             class2: '', // HTML(div)
             speed: 300, // 表示するスピード[秒]
         });
