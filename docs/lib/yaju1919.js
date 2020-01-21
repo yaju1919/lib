@@ -314,9 +314,11 @@ var yaju1919 = {
             return s.val();
         };
     },
-    // ボタンで表示を切り替えられる非表示エリアを追加(返り値は非表示エリアの要素)
+    // ボタンで表示を切り替えられる非表示エリアを追加
     addHideArea: function(parentNode, param){
         var p = yaju1919.setDefaultValue(param,{ // addInputBool参照
+            id2: '', // HTML(div)
+            class2: '', // HTML(div)
             speed: 300, // 表示するスピード[秒]
         });
         var front = $("<span>").appendTo($(parentNode));
@@ -324,7 +326,8 @@ var yaju1919 = {
         p.change = function(flag){ // changeはこの関数が使うので設定しても反映されない
             area[flag ? "show" : "hide"](p.speed);
         }
-        var btn = yaju1919.addInputBool(front, p);
-        return area;
+        if(p.id2 !== '') area.attr('id', p.id2);
+        if(p.class2 !== '') area.addClass(p.class2);
+        return yaju1919.addInputBool(front, p);
     }
 };
