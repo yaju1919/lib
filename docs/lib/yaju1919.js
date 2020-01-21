@@ -97,7 +97,7 @@ var yaju1919 = {
     //------------------------------------------------------------------------------------------------------
     makeSaveKey: function(key){ // URLごとにlocalStrageで保存する領域を分けるためのキーを作成
         if(!yaju1919.judgeType(key,"String") || key === '') return false;
-        return location.href.replace(/[:#\?].*$/g,'') + '|' + key; // URLのパラメータなどは除く
+        return location.href.split('?')[0] + '|' + key; // クエリを除く
     },
     save: function(key, value){ // 文字列の保存
         var SaveKey = yaju1919.makeSaveKey(key);
@@ -170,11 +170,10 @@ var yaju1919 = {
         }).change(change).val(String(p.value));
         if(p.id !== '') i.attr('id', p.id);
         if(p.class !== '') i.addClass(p.class);
-        change();
         yaju1919.load(p.save, function(v){
             i.val(v);
-            change();
         });
+        change();
         return function(){
             return i.val();
         };
@@ -225,11 +224,10 @@ var yaju1919 = {
         }).change(change).val(String(p.value));
         if(p.id !== '') i.attr('id', p.id);
         if(p.class !== '') i.addClass(p.class);
-        change();
         yaju1919.load(p.save, function(v){
             i.val(v);
-            change();
         });
+        change();
         return function(){
             return Number(i.val());
         };
@@ -259,12 +257,11 @@ var yaju1919 = {
         if(p.id !== '') btn.attr('id', p.id);
         if(p.class !== '') btn.addClass(p.class);
         var check = $("<input>",{type:"checkbox"}).prependTo(btn);
-        change();
         yaju1919.load(p.save, function(v){
             if(v !== '1') return;
             flag = v;
-            change();
         });
+        change();
         return function(){
             return flag;
         };
@@ -305,11 +302,10 @@ var yaju1919 = {
         if(p.id !== '') s.attr('id', p.id);
         if(p.class !== '') s.addClass(p.class);
         update();
-        change();
         yaju1919.load(p.save, function(v){
             s.val(v);
-            change();
         });
+        change();
         return function(){
             return s.val();
         };
