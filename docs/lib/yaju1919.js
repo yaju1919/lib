@@ -15,7 +15,7 @@ var yaju1919 = {
         // "String","Number","Boolean","Array","Object","RegExp",
         // "Function","Null","Undefined"
     },
-    judgeType: function(x, typeName){ // typeName: 文字列または配列、xが指定された型名ならtrueを返す
+    judgeType: function(x, typeName){ // xが指定された型名ならtrueを返す
         var type = yaju1919.getType(x);
         switch(yaju1919.getType(typeName)){
             case "String":
@@ -80,8 +80,7 @@ var yaju1919 = {
         document.body.removeChild(e);
         return true;
     },
-    // テキストファイル形式で保存
-    download: function(str, title){ // str: 保存する文字列, title: ファイルの名前
+    download: function(str, title){ // テキストファイル形式で保存, str: 保存する文字列, title: ファイルの名前
         if(!yaju1919.judgeType(str,"String") || str === '') return false; // 失敗
         if(!yaju1919.judgeType(title,"String") || title === '') return false; // 失敗
         var strText = str.replace(/\n/g,'\r\n'); // 改行を置換
@@ -105,7 +104,7 @@ var yaju1919 = {
         localStorage.setItem(SaveKey, value);
         return true;
     },
-    load: function(key, callback){ // 保存した文字列の読み込み
+    load: function(key, callback){ // 保存した文字列の読み込み(callbackの引数に渡される)
         var SaveKey = yaju1919.makeSaveKey(key);
         if(!SaveKey) return false;
         var data = localStorage.getItem(SaveKey);
@@ -114,8 +113,7 @@ var yaju1919 = {
         return true;
     },
     //------------------------------------------------------------------------------------------------------
-    // 第二引数の型が異なる場合、第一引数にデフォルト値が設定される。
-    setDefaultValue: function(param, default_param){ // param: 不定, default_param: 受け取るパラメータの設定&初期値
+    setDefaultValue: function(param, default_param){ // 2つとも連想配列, default_paramの型が異なる場合、paramにデフォルト値が設定される。
         if(!yaju1919.judgeType(param,"Object")) param = {};
         for(var key in default_param){
             var default_type = yaju1919.getType(default_param[key]);
@@ -126,8 +124,7 @@ var yaju1919 = {
     },
     //------------------------------------------------------------------------------------------------------
     // これより下は特筆しない限り、返り値は入力値を返す関数
-    // 文字列入力欄を追加
-    addInputText: function(parentNode, param){
+    addInputText: function(parentNode, param){ // 文字列入力欄を追加
         var p = yaju1919.setDefaultValue(param,{
             id: '', // HTML
             class: '', // HTML
@@ -178,8 +175,7 @@ var yaju1919 = {
             return i.val();
         };
     },
-    // 数字入力欄を追加
-    addInputNumber: function(parentNode, param){
+    addInputNumber: function(parentNode, param){ // 数字入力欄を追加
         var p = yaju1919.setDefaultValue(param,{
             id: '', // HTML
             class: '', // HTML
@@ -232,8 +228,7 @@ var yaju1919 = {
             return Number(i.val());
         };
     },
-    // ONOFFボタンを追加
-    addInputBool: function(parentNode, param){
+    addInputBool: function(parentNode, param){ // ONOFFボタンを追加
         var p = yaju1919.setDefaultValue(param,{
             id: '', // HTML(button)
             class: '', // HTML(button)
@@ -265,8 +260,7 @@ var yaju1919 = {
             return flag;
         };
     },
-    // 選択肢を追加
-    addSelect: function(parentNode, param){
+    addSelect: function(parentNode, param){ // 選択肢を追加
         var p = yaju1919.setDefaultValue(param,{
             id: '', // HTML(select)
             class: '', // HTML(select)
@@ -309,8 +303,7 @@ var yaju1919 = {
             return s.val();
         };
     },
-    // ボタンで表示を切り替えられる非表示エリアを追加
-    addHideArea: function(parentNode, param){
+    addHideArea: function(parentNode, param){ // ボタンで表示を切り替えられる非表示エリアを追加
         var p = yaju1919.setDefaultValue(param,{ // addInputBool参照
             id2: '', // HTML(div) 非表示エリアのdiv要素
             class2: '', // HTML(div)
