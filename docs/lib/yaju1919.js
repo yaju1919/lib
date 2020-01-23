@@ -5,12 +5,13 @@ var yaju1919 = {
         var sstr = '';
         for(var k in yaju1919) {
             var str = String(yaju1919[k]);
-            var agm = str.match(/function(\(.*?\))/);
-            agm = agm ? agm[1] : '<関数では無い>';
+            var agm = str.match(/function\(.*?\)/);
+            agm = agm ? agm[0].replace("function",'') : '<関数では無い>';
             var cmt = str.match(/\/\/.*\n/);
             cmt = cmt ? cmt[0] : '';
             sstr += [k, agm, cmt].join(' ');
         }
+        sstr += "\n// addから始まる関数はjQueryを使用。";
         return sstr;
     },
     //------------------------------------------------------------------------------------------------------
@@ -52,6 +53,18 @@ var yaju1919 = {
     },
     getTime: function(){ // xx:yy:zz の形式で現在時刻の文字列を返す
         return new Date().toString().match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)[0];
+    },
+    getIP: function(callback){ // IPアドレス等の情報を取得し、callbackの引数に渡す
+        var xhr = new XMLHttpRequest();
+        xhr.open( 'GET', "https://ipinfo.io/?callback=a" );
+        xhr.responseType = 'text';
+        xhr.onload = function() {
+            if (xhr.status !== 200) return;
+            var m = xhr.response.match(/{.*?}/);
+            if(!m) return;
+            callback(JSON.parse(m[0]));
+        };
+        xhr.send();
     },
     //------------------------------------------------------------------------------------------------------
     // 文字列操作
