@@ -5,8 +5,8 @@ var yaju1919 = {
         var sstr = '';
         for(var k in yaju1919) {
             var str = String(yaju1919[k]);
-            var agm = str.match(/function.*?\(.*?\)/);
-            agm = agm ? agm[0].match(/\(.*?\)/)[0] : '<関数では無い>';
+            var agm = str.match(/function.*?(\(.*?\))/);
+            agm = agm ? agm[1] : '<関数では無い>';
             var cmt = str.match(/\/\/.*\n/);
             cmt = cmt ? cmt[0] : '';
             sstr += [k, agm, cmt].join(' ');
