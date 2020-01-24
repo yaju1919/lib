@@ -53,6 +53,47 @@ var yaju1919 = {
     getTime: function(){ // xx:yy:zz の形式で現在時刻の文字列を返す
         return new Date().toString().match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)[0];
     },
+    getBrowser: function(){ // ブラウザの名前を取得
+        var ua = window.navigator.userAgent.toLowerCase();
+        if(ua.indexOf("edge") !== -1 || ua.indexOf("edga") !== -1 || ua.indexOf("edgios") !== -1) {
+            return "Microsoft Edge";
+        }
+        else if (ua.indexOf("opera") !== -1 || ua.indexOf("opr") !== -1) {
+            return "Opera";
+        }
+        else if (ua.indexOf("samsungbrowser") !== -1) {
+            return "Samsung Internet Browser";
+        }
+        else if (ua.indexOf("ucbrowser") !== -1) {
+            return "UC Browser";
+        }
+        else if(ua.indexOf("chrome") !== -1 || ua.indexOf("crios") !== -1) {
+            return "Google Chrome";
+        }
+        else if(ua.indexOf("firefox") !== -1 || ua.indexOf("fxios") !== -1) {
+            return "Mozilla Firefox";
+        }
+        else if(ua.indexOf("safari") !== -1) {
+            return "Safari";
+        }
+        else if (ua.indexOf("msie") !== -1 || ua.indexOf("trident") !== -1) {
+            return "Internet Explorer";
+        }
+        return false;
+    },
+    getOS: function(){ // OSの名前を取得
+        var ua = window.navigator.userAgent.toLowerCase();
+        if(ua.indexOf("windows nt") !== -1) {
+            return "Microsoft Windows";
+        } else if(ua.indexOf("android") !== -1) {
+            return "Android";
+        } else if(ua.indexOf("iphone") !== -1 || ua.indexOf("ipad") !== -1) {
+            return "iOS";
+        } else if(ua.indexOf("mac os x") !== -1) {
+            return "macOS";
+        }
+        return false;
+    },
     getIP: function(callback){ // IPアドレス等の情報を取得し、callbackの引数に渡す
         var xhr = new XMLHttpRequest();
         xhr.open( 'GET', "https://ipinfo.io/?callback=a" );
