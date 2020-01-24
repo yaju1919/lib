@@ -181,7 +181,7 @@ var yaju1919 = {
             textarea: false, // trueならtextarea要素になる
         });
         var h = $("<div>").appendTo(parentNode);
-        if(p.title !== '') h.append(p.title + ':');
+        if(p.title !== '') h.text(p.title + ':');
         var i = $(p.textarea ? "<textarea>" : "<input>").appendTo(h)
         .attr('placeholder',p.placeholder)
         .css({
@@ -257,7 +257,7 @@ var yaju1919 = {
             int: false, // trueなら自動で整数化
         });
         var lastInput, h = $("<div>").appendTo(parentNode);
-        if(p.title !== '') h.append(p.title + ':');
+        if(p.title !== '') h.text(p.title + ':');
         var i = $("<input>").appendTo(h)
         .attr('placeholder',p.placeholder)
         .css({
@@ -359,8 +359,8 @@ var yaju1919 = {
             list: {}, // 選択肢の連想配列
         });
         var h = $("<div>").appendTo(parentNode);
-        if(p.title !== '') h.append(p.title + ':');
-        var s = $("<select>").appendTo(h)
+        if(p.title !== '') h.text(p.title + ':');
+        var i = $("<select>").appendTo(h)
         .css({
             maxWidth: "100%",
             minWidth: yaju1919.getFontSize(parentNode) * 5
@@ -369,19 +369,19 @@ var yaju1919 = {
         .on('updateSelect', updateSelect) // 'updateSelect'イベントをtoggleなどで発火させると更新
         .keyup(resize).click(resize)
         .change(change);
-        if(p.id !== '') s.attr('id', p.id);
-        if(p.class !== '') s.addClass(p.class);
+        if(p.id !== '') i.attr('id', p.id);
+        if(p.class !== '') i.addClass(p.class);
         function updateSelect(){
-            var v = s.val();
-            s.empty();
-            if(p.placeholder !== '') $("<option>",{text:p.placeholder}).val('').hide().appendTo(s);
-            for(var k in p.list) $("<option>",{text:k}).val(p.list[k]).appendTo(s);
-            if(v) s.val(v);
+            var v = i.val();
+            i.empty();
+            if(p.placeholder !== '') $("<option>",{text:p.placeholder}).val('').hide().appendTo(i);
+            for(var k in p.list) $("<option>",{text:k}).val(p.list[k]).appendTo(i);
+            if(v) i.val(v);
         }
         updateSelect();
-        s.val(p.value);
+        i.val(p.value);
         yaju1919.load(p.save, function(v){
-            s.val(v);
+            i.val(v);
         });
         function resize(){
             var maxWidth = $(parentNode).width(),
@@ -393,20 +393,20 @@ var yaju1919 = {
                 if(placeholderWidth > width) width = placeholderWidth;
             }
             if(width > maxWidth) width = maxWidth;
-            s.width(width);
+            i.width(width);
         }
         resize();
         $(window).resize(resize);
         function change(){
-            var v = s.val();
+            var v = i.val();
             var re = p.change(v);
             if(yaju1919.judgeType(re,"String")) v = re;
-            s.val(v);
+            i.val(v);
             yaju1919.save(p.save, v);
         }
         change();
         return function(){
-            return s.val();
+            return i.val();
         };
     },
     addHideArea: function(parentNode, param){ // ボタンで表示を切り替えられる非表示エリアを追加
