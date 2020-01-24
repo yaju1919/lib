@@ -180,7 +180,7 @@ var yaju1919 = {
             max: Infinity, // 入力可能な最大長
             textarea: false, // trueならtextarea要素になる
         });
-        var h = $("<div>").appendTo($(parentNode));
+        var h = $("<div>").appendTo(parentNode);
         if(p.title !== '') h.append(p.title + ':');
         var i = $(p.textarea ? "<textarea>" : "<input>").appendTo(h)
         .attr('placeholder',p.placeholder)
@@ -256,7 +256,7 @@ var yaju1919 = {
             max: Infinity, // 入力可能な最大値
             int: false, // trueなら自動で整数化
         });
-        var lastInput, h = $("<div>").appendTo($(parentNode));
+        var lastInput, h = $("<div>").appendTo(parentNode);
         if(p.title !== '') h.append(p.title + ':');
         var i = $("<input>").appendTo(h)
         .attr('placeholder',p.placeholder)
@@ -321,7 +321,7 @@ var yaju1919 = {
             save: '', // 変更された値を保存する領域
         });
         var flag = p.value;
-        var btn = $("<button>").appendTo($(parentNode))
+        var btn = $("<button>").appendTo(parentNode)
         .css({
             maxWidth: "100%",
         })
@@ -358,7 +358,7 @@ var yaju1919 = {
             save: '', // 変更された値を保存する領域
             list: {}, // 選択肢の連想配列
         });
-        var h = $("<div>").appendTo($(parentNode));
+        var h = $("<div>").appendTo(parentNode);
         if(p.title !== '') h.append(p.title + ':');
         var s = $("<select>").appendTo(h)
         .css({
@@ -415,8 +415,8 @@ var yaju1919 = {
             class2: '', // HTML(div)
             speed: 300, // 表示するスピード[秒]
         });
-        var front = $("<span>").appendTo($(parentNode));
-        var area = $("<div>").appendTo($(parentNode));
+        var front = $("<span>").appendTo(parentNode);
+        var area = $("<div>").appendTo(parentNode);
         p.change = function(flag){ // changeはこの関数が使うので設定しても反映されない
             area[flag ? "show" : "hide"](p.speed);
         }
