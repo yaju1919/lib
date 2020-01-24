@@ -6,12 +6,11 @@ var yaju1919 = {
         for(var k in yaju1919) {
             var str = String(yaju1919[k]);
             var agm = str.match(/function.*?(\(.*?\))/);
-            agm = agm ? agm[1] : '<関数では無い>';
+            agm = agm ? agm[1] : '<not function>';
             var cmt = str.match(/\/\/.*\n/);
             cmt = cmt ? cmt[0] : '';
             sstr += [k, agm, cmt].join(' ');
         }
-        sstr += "\n// addから始まる関数はjQueryを使用。";
         return sstr;
     },
     //------------------------------------------------------------------------------------------------------
@@ -156,8 +155,17 @@ var yaju1919 = {
         return true;
     },
     //------------------------------------------------------------------------------------------------------
+    // DOM操作
+    getCSS: function(elm){ // elmのCSSの値を取得する
+        var e = $(elm || document.body).get(0);
+        return e.currentStyle || document.defaultView.getComputedStyle(e, '');
+    },
+    getFontSize: function(elm){ // elmのフォントサイズを取得する
+        var size = yaju1919.getCSS(elm).fontSize;
+        return Number(size.replace("px",'')) + 1;
+    },
     // HTML要素を追加する
-    // これより下は特筆しない限り、返り値は入力値を返す関数
+    // これより下の関数の返り値は、入力値を返す関数
     addInputText: function(parentNode, param){ // 文字列入力欄を追加
         var p = yaju1919.setDefaultValue(param,{
             id: '', // HTML
@@ -168,17 +176,52 @@ var yaju1919 = {
             change: function(){}, // 値が変更されたとき実行する関数
             enter: function(){}, // Enterキーで実行する関数
             save: '', // 変更された値を保存する領域
-            width: '50%', // 入力欄の幅
             hankaku: true, // trueなら自動で半角化
             max: Infinity, // 入力可能な最大長
             textarea: false, // trueならtextarea要素になる
         });
-        var h = $("<span>").appendTo($(parentNode));
-        if(p.title !== '') h.append(p.title + "：");
-        function resize(){
+        var h = $("<div>").appendTo($(parentNode));
+        if(p.title !== '') h.append(p.title + ':');
+        var i = $(p.textarea ? "<textarea>" : "<input>").appendTo(h)
+        .attr('placeholder',p.placeholder)
+        .css({
+            maxWidth: "100%",
+            minWidth: yaju1919.getFontSize(parentNode) * 5,
+            "vertical-align": "middle"
+        })
+        .keypress(function(e){
+            if(e.key === 'Enter') p.enter();
+        })
+        .keyup(resizeHeight).click(resizeHeight)
+        .keyup(resize).click(resize)
+        .change(change).val(p.value);
+        if(p.id !== '') i.attr('id', p.id);
+        if(p.class !== '') i.addClass(p.class);
+        yaju1919.load(p.save, function(v){
+            i.val(v);
+        });
+        function resizeHeight(){
             if(!p.textarea) return;
-            i.height((i.val().split('\n').length + 2) + "em");
+            var line = i.val().split('\n').length;
+            var line_p = p.placeholder.split('\n').length;
+            if(line < line_p) line = line_p;
+            i.height(line + "em");
         }
+        resizeHeight();
+        function resize(){
+            var maxWidth = $(parentNode).width(),
+                fontSize = yaju1919.getFontSize(parentNode);
+            if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
+            var width = fontSize * i.val().length;
+            if(p.placeholder !== '') {
+                var placeholderWidth = fontSize * p.placeholder.length;
+                if(placeholderWidth > width) width = placeholderWidth;
+            }
+            if(width > maxWidth) width = maxWidth;
+            i.width(width);
+        }
+        resize();
+        $(window).resize(resize);
         function change(){
             var v = i.val().trim();
             if(p.hankaku) v = yaju1919.toHan(v);
@@ -188,22 +231,6 @@ var yaju1919 = {
             i.val(v);
             yaju1919.save(p.save, v);
         }
-        var i = $(p.textarea ? "<textarea>" : "<input>").appendTo(h)
-        .attr({
-            placeholder: p.placeholder
-        })
-        .keyup(resize).click(resize)
-        .keypress(function(e){
-            if(e.key === 'Enter') p.enter();
-        }).css({
-            maxWidth: p.width,
-            minWidth: p.width
-        }).change(change).val(String(p.value));
-        if(p.id !== '') i.attr('id', p.id);
-        if(p.class !== '') i.addClass(p.class);
-        yaju1919.load(p.save, function(v){
-            i.val(v);
-        });
         change();
         return function(){
             return i.val();
@@ -215,17 +242,46 @@ var yaju1919 = {
             class: '', // HTML
             title: '', // タイトル
             placeholder: '', // 説明文
-            value: '', // 初期値
+            value: 0, // 初期値
             change: function(){}, // 値が変更されたとき実行する関数
             enter: function(){}, // Enterキーで実行する関数
             save: '', // 変更された値を保存する領域
-            width: '50%', // 入力欄の幅
             min: 0, // 入力可能な最小値
             max: Infinity, // 入力可能な最大値
             int: false, // trueなら自動で整数化
         });
-        var lastInput, h = $("<span>").appendTo($(parentNode));
-        if(p.title !== '') h.append(p.title + "：");
+        var lastInput, h = $("<div>").appendTo($(parentNode));
+        if(p.title !== '') h.append(p.title + ':');
+        var i = $("<input>").appendTo(h)
+        .attr('placeholder',p.placeholder)
+        .css({
+            maxWidth: "100%",
+            minWidth: yaju1919.getFontSize(parentNode) * 5
+        })
+        .keypress(function(e){
+            if(e.key === 'Enter') p.enter();
+        })
+        .keyup(resize).click(resize)
+        .change(change).val(p.value);
+        if(p.id !== '') i.attr('id', p.id);
+        if(p.class !== '') i.addClass(p.class);
+        yaju1919.load(p.save, function(v){
+            i.val(v);
+        });
+        function resize(){
+            var maxWidth = $(parentNode).width(),
+                fontSize = yaju1919.getFontSize(parentNode);
+            if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
+            var width = fontSize * i.val().length;
+            if(p.placeholder !== '') {
+                var placeholderWidth = fontSize * p.placeholder.length;
+                if(placeholderWidth > width) width = placeholderWidth;
+            }
+            if(width > maxWidth) width = maxWidth;
+            i.width(width);
+        }
+        resize();
+        $(window).resize(resize);
         function change(){
             var n = Number(yaju1919.toHan(i.val().trim()).replace(/[^0-9\.\-\+]/g,""));
             i.css({backgroundColor: "white"});
@@ -244,19 +300,6 @@ var yaju1919 = {
             lastInput = v;
             yaju1919.save(p.save, v);
         }
-        var i = $("<input>").appendTo(h)
-        .attr('placeholder',p.placeholder)
-        .keypress(function(e){
-            if(e.key === 'Enter') p.enter();
-        }).css({
-            maxWidth: p.width,
-            minWidth: p.width
-        }).change(change).val(String(p.value));
-        if(p.id !== '') i.attr('id', p.id);
-        if(p.class !== '') i.addClass(p.class);
-        yaju1919.load(p.save, function(v){
-            i.val(v);
-        });
         change();
         return function(){
             return Number(i.val());
@@ -271,15 +314,12 @@ var yaju1919 = {
             change: function(){}, // 値が変更されたとき実行する関数
             save: '', // 変更された値を保存する領域
         });
-        function change(){
-            var re = p.change(flag);
-            if(yaju1919.judgeType(re,"Boolean")) flag = re;
-            btn.css("background-color", flag ? "orange" : "gray");
-            check.prop("checked", flag);
-            yaju1919.save(p.save, flag ? '1' : '0');
-        }
         var flag = p.value;
-        var btn = $("<button>").appendTo($(parentNode)).text(p.title).click(function(){
+        var btn = $("<button>").appendTo($(parentNode))
+        .css({
+            maxWidth: "100%",
+        })
+        .text(p.title).click(function(){
             flag = !flag;
             change();
         });
@@ -289,6 +329,13 @@ var yaju1919 = {
         yaju1919.load(p.save, function(v){
             flag = (v === '1');
         });
+        function change(){
+            var re = p.change(flag);
+            if(yaju1919.judgeType(re,"Boolean")) flag = re;
+            btn.css("background-color", flag ? "orange" : "gray");
+            check.prop("checked", flag);
+            yaju1919.save(p.save, flag ? '1' : '0');
+        }
         change();
         return function(){
             return flag;
@@ -299,20 +346,51 @@ var yaju1919 = {
             id: '', // HTML(select)
             class: '', // HTML(select)
             title: '', // タイトル
-            value: false, // 初期値
+            placeholder: '', // 説明文
+            value: '', // 初期値
             change: function(){}, // 値が変更されたとき実行する関数
             save: '', // 変更された値を保存する領域
-            width: '50%', // 入力欄の幅
             list: {}, // 選択肢の連想配列
         });
-        var h = $("<span>").appendTo($(parentNode));
-        if(p.title !== '') h.append(p.title + "：");
-        function update(){
+        var h = $("<div>").appendTo($(parentNode));
+        if(p.title !== '') h.append(p.title + ':');
+        var s = $("<select>").appendTo(h)
+        .css({
+            maxWidth: "100%",
+            minWidth: yaju1919.getFontSize(parentNode) * 5
+        })
+        .hover(updateSelect)
+        .on('updateSelect', updateSelect) // 'updateSelect'イベントをtoggleなどで発火させると更新
+        .keyup(resize).click(resize)
+        .change(change);
+        if(p.id !== '') s.attr('id', p.id);
+        if(p.class !== '') s.addClass(p.class);
+        function updateSelect(){
             var v = s.val();
             s.empty();
+            if(p.placeholder !== '') $("<option>",{text:p.placeholder}).val('').hide().appendTo(s);
             for(var k in p.list) $("<option>",{text:k}).val(p.list[k]).appendTo(s);
             if(v) s.val(v);
         }
+        updateSelect();
+        s.val(p.value);
+        yaju1919.load(p.save, function(v){
+            s.val(v);
+        });
+        function resize(){
+            var maxWidth = $(parentNode).width(),
+                fontSize = yaju1919.getFontSize(parentNode);
+            if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
+            var width = fontSize * i.val().length;
+            if(p.placeholder !== '') {
+                var placeholderWidth = fontSize * p.placeholder.length;
+                if(placeholderWidth > width) width = placeholderWidth;
+            }
+            if(width > maxWidth) width = maxWidth;
+            s.width(width);
+        }
+        resize();
+        $(window).resize(resize);
         function change(){
             var v = s.val();
             var re = p.change(v);
@@ -320,18 +398,6 @@ var yaju1919 = {
             s.val(v);
             yaju1919.save(p.save, v);
         }
-        var s = $("<select>").appendTo(h)
-        .click(update).on('update', update)
-        .css({
-            maxWidth: p.width,
-            minWidth: p.width
-        }).change(change).val(String(p.value));
-        if(p.id !== '') s.attr('id', p.id);
-        if(p.class !== '') s.addClass(p.class);
-        update();
-        yaju1919.load(p.save, function(v){
-            s.val(v);
-        });
         change();
         return function(){
             return s.val();
