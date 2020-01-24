@@ -207,12 +207,10 @@ var yaju1919 = {
             if(line < line_p) line = line_p;
             // If the string length is too long
             var fontSize = yaju1919.getFontSize(parentNode),
-                width = $(parentNode).width(),
-                max = 0;
+                width = $(parentNode).width();
             i.val().split('\n').forEach(function(v){
-                if(max < v.length) max = v.length;
+                line += Math.floor((v.length * fontSize) / width);
             });
-            line += Math.floor((max * fontSize) / width);
             i.height(line + "em");
         }
         resizeHeight();
