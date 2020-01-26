@@ -98,8 +98,7 @@ var yaju1919 = {
         var xhr = new XMLHttpRequest();
         xhr.open( 'GET', "https://ipinfo.io/?callback=a" );
         xhr.responseType = 'text';
-        xhr.onload = function() {
-            if (xhr.status !== 200) return;
+        xhr.onload = function(){
             var m = xhr.response.match(/{.*?}/);
             if(!m) return;
             callback(JSON.parse(m[0]));
@@ -220,6 +219,8 @@ var yaju1919 = {
             hankaku: true, // trueなら自動で半角化
             max: Infinity, // 入力可能な最大長
             textarea: false, // trueならtextarea要素になる
+            width: '', // widthがこの値で固定
+            height: '', // heightがこの値で固定(textareaの時のみ有効)
         });
         var h = $("<div>").appendTo(parentNode);
         if(p.title !== '') h.text(p.title + ':');
@@ -227,7 +228,7 @@ var yaju1919 = {
         .attr('placeholder',p.placeholder)
         .css({
             maxWidth: "100%",
-            minWidth: yaju1919.getFontSize(parentNode) * 5,
+            minWidth: yaju1919.getFontSize() * 5,
             "vertical-align": "middle"
         })
         .keypress(function(e){
@@ -243,11 +244,12 @@ var yaju1919 = {
         });
         function resizeHeight(){
             if(!p.textarea) return;
+            if(p.height !== '') return i.height(p.height);
             var line = i.val().split('\n').length;
             var line_p = p.placeholder.split('\n').length;
             if(line < line_p) line = line_p;
             // If the string length is too long
-            var fontSize = yaju1919.getFontSize(parentNode),
+            var fontSize = yaju1919.getFontSize(),
                 width = $(parentNode).width();
             i.val().split('\n').forEach(function(v){
                 line += Math.floor((v.length * fontSize) / width);
@@ -256,8 +258,9 @@ var yaju1919 = {
         }
         resizeHeight();
         function resize(){
+            if(p.width !== '') return i.width(p.width);
             var maxWidth = $(parentNode).width(),
-                fontSize = yaju1919.getFontSize(parentNode);
+                fontSize = yaju1919.getFontSize();
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
             var width = fontSize * i.val().length;
             if(p.placeholder !== '') {
@@ -296,6 +299,7 @@ var yaju1919 = {
             min: 0, // 入力可能な最小値
             max: Infinity, // 入力可能な最大値
             int: false, // trueなら自動で整数化
+            width: '', // widthがこの値で固定
         });
         var lastInput, h = $("<div>").appendTo(parentNode);
         if(p.title !== '') h.text(p.title + ':');
@@ -303,7 +307,7 @@ var yaju1919 = {
         .attr('placeholder',p.placeholder)
         .css({
             maxWidth: "100%",
-            minWidth: yaju1919.getFontSize(parentNode) * 5
+            minWidth: yaju1919.getFontSize() * 5
         })
         .keypress(function(e){
             if(e.key === 'Enter') p.enter();
@@ -316,8 +320,9 @@ var yaju1919 = {
             i.val(v);
         });
         function resize(){
+            if(p.width !== '') return i.width(p.width);
             var maxWidth = $(parentNode).width(),
-                fontSize = yaju1919.getFontSize(parentNode);
+                fontSize = yaju1919.getFontSize();
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
             var width = fontSize * i.val().length;
             if(p.placeholder !== '') {
@@ -360,11 +365,13 @@ var yaju1919 = {
             value: false, // 初期値
             change: function(){}, // 値が変更されたとき実行する関数
             save: '', // 変更された値を保存する領域
+            width: '', // widthの設定
         });
         var flag = p.value;
         var btn = $("<button>").appendTo(parentNode)
         .css({
             maxWidth: "100%",
+            minWidth: yaju1919.getFontSize() * 5
         })
         .text(p.title).click(function(){
             flag = !flag;
@@ -384,6 +391,7 @@ var yaju1919 = {
             yaju1919.save(p.save, flag ? '1' : '0');
         }
         change();
+        if(p.width !== '') return btn.width(p.width);
         return function(){
             return flag;
         };
@@ -398,13 +406,14 @@ var yaju1919 = {
             change: function(){}, // 値が変更されたとき実行する関数
             save: '', // 変更された値を保存する領域
             list: {}, // 選択肢の連想配列
+            width: '', // widthがこの値で固定
         });
         var h = $("<div>").appendTo(parentNode);
         if(p.title !== '') h.text(p.title + ':');
         var i = $("<select>").appendTo(h)
         .css({
             maxWidth: "100%",
-            minWidth: yaju1919.getFontSize(parentNode) * 5
+            minWidth: yaju1919.getFontSize() * 5
         })
         .hover(updateSelect)
         .on('updateSelect', updateSelect) // 'updateSelect'イベントをtoggleなどで発火させると更新
@@ -425,6 +434,7 @@ var yaju1919 = {
             i.val(v);
         });
         function resize(){
+            if(p.width !== '') return i.width(p.width);
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize(parentNode);
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
