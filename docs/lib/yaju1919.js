@@ -44,7 +44,17 @@ var yaju1919 = {
     },
     //------------------------------------------------------------------------------------------------------
     // 闇鍋
-    rand: function(array){ // ランダムな要素を返す
+    max: function(array){ // 配列から最大値を求める
+        return array.reduce(function(a,b){
+            return a > b ? a : b;
+        });
+    },
+    min: function(array){ // 配列から最小値を求める
+        return array.reduce(function(a,b){
+            return a < b ? a : b;
+        });
+    },
+    rand: function(array){ // 配列のランダムな要素を返す
         return array[Math.floor(Math.random()*array.length)];
     },
     randInt: function(min, max){ // ランダムな整数を返す
@@ -280,7 +290,7 @@ var yaju1919 = {
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize();
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * (i.val()||'').length;
+            var width = fontSize * yaju1919.max((i.val()||'').split('\n')).length;
             if(p.placeholder !== '') {
                 var placeholderWidth = fontSize * p.placeholder.length;
                 if(placeholderWidth > width) width = placeholderWidth;
@@ -342,7 +352,7 @@ var yaju1919 = {
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize();
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * (i.val()||'').length;
+            var width = fontSize * yaju1919.max((i.val()||'').split('\n')).length;
             if(p.placeholder !== '') {
                 var placeholderWidth = fontSize * p.placeholder.length;
                 if(placeholderWidth > width) width = placeholderWidth;
@@ -456,7 +466,7 @@ var yaju1919 = {
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize(parentNode);
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * (i.val()||'').length;
+            var width = fontSize * yaju1919.max((i.val()||'').split('\n')).length;
             if(p.placeholder !== '') {
                 var placeholderWidth = fontSize * p.placeholder.length;
                 if(placeholderWidth > width) width = placeholderWidth;
