@@ -485,7 +485,7 @@ var yaju1919 = {
         }
         change();
         return function(){
-            return i.val();
+            return i.val()||'';
         };
     },
     addHideArea: function(parentNode, param){ // ボタンで表示を切り替えられる非表示エリアを追加
