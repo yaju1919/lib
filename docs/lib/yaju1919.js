@@ -290,7 +290,7 @@ var yaju1919 = {
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize();
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * yaju1919.max((i.val()||'').split('\n')).length;
+            var width = fontSize * yaju1919.max(i.val().split('\n')).length;
             if(p.placeholder !== '') {
                 var placeholderWidth = fontSize * p.placeholder.length;
                 if(placeholderWidth > width) width = placeholderWidth;
@@ -352,7 +352,7 @@ var yaju1919 = {
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize();
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * yaju1919.max((i.val()||'').split('\n')).length;
+            var width = fontSize * yaju1919.max(i.val().split('\n')).length;
             if(p.placeholder !== '') {
                 var placeholderWidth = fontSize * p.placeholder.length;
                 if(placeholderWidth > width) width = placeholderWidth;
@@ -447,10 +447,13 @@ var yaju1919 = {
         .on('updateSelect', updateSelect) // 'updateSelect'イベントをtoggleなどで発火させると更新
         .keyup(resize).click(resize)
         .change(change);
+        function getValue(){
+            return i.val() || '';
+        }
         if(p.id !== '') i.attr('id', p.id);
         if(p.class !== '') i.addClass(p.class);
         function updateSelect(){
-            var v = i.val();
+            var v = getValue();
             i.empty();
             if(p.placeholder !== '') $("<option>",{text:p.placeholder}).val('').hide().appendTo(i);
             for(var k in p.list) $("<option>",{text:k}).val(p.list[k]).appendTo(i);
@@ -466,7 +469,7 @@ var yaju1919 = {
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize(parentNode);
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * yaju1919.max((i.val()||'').split('\n')).length;
+            var width = fontSize * yaju1919.max(getValue().split('\n')).length;
             if(p.placeholder !== '') {
                 var placeholderWidth = fontSize * p.placeholder.length;
                 if(placeholderWidth > width) width = placeholderWidth;
@@ -477,16 +480,14 @@ var yaju1919 = {
         resize();
         $(window).resize(resize);
         function change(){
-            var v = i.val();
+            var v = getValue();
             var re = p.change(v);
             if(yaju1919.judgeType(re,"String")) v = re;
             i.val(v);
             yaju1919.save(p.save, v);
         }
         change();
-        return function(){
-            return i.val()||'';
-        };
+        return getValue;
     },
     addHideArea: function(parentNode, param){ // ボタンで表示を切り替えられる非表示エリアを追加
         var p = yaju1919.setDefaultValue(param,{ // addInputBool参照
