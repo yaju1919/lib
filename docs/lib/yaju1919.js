@@ -181,14 +181,14 @@ var yaju1919 = {
         var thisURL = location.href.split('?')[0] + '|'; // クエリを除く
         return thisURL + key;
     },
-    getSaveKeys: function(){ // makeSaveKeyで作ったlocalStrageのキーだけを配列で取得
+    getSaveKeys: function(){ // 保存されているキーを配列で取得
         var ar = [], i = 0;
         var thisURL = location.href.split('?')[0] + '|';
         while(true){
             var key = localStorage.key(i++);
             if(!key) break;
             if(key.indexOf(thisURL)) continue;
-            ar.push(key);
+            ar.push(key.replace(thisURL,''));
         }
         return ar;
     },
