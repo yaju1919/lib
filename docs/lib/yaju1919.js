@@ -178,7 +178,19 @@ var yaju1919 = {
     // データの保存
     makeSaveKey: function(key){ // URLごとに保存する領域を分けるためのキーを作成
         if(!yaju1919.judgeType(key,"String") || key === '') return false;
-        return location.href.split('?')[0] + '|' + key; // クエリを除く
+        var thisURL = location.href.split('?')[0] + '|'; // クエリを除く
+        return thisURL + key;
+    },
+    getSaveKeys: function(){ // makeSaveKeyで作ったlocalStrageのキーだけを配列で取得
+        var ar = [], i = 0;
+        var thisURL = location.href.split('?')[0] + '|';
+        while(true){
+            var key = localStorage.key(i++);
+            if(!key) break;
+            if(key.indexOf(thisURL)) continue;
+            ar.push(key);
+        }
+        return ar;
     },
     save: function(key, value){ // 文字列を保存
         var SaveKey = yaju1919.makeSaveKey(key);
