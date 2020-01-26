@@ -280,7 +280,7 @@ var yaju1919 = {
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize();
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * i.val().length;
+            var width = fontSize * (i.val()||'').length;
             if(p.placeholder !== '') {
                 var placeholderWidth = fontSize * p.placeholder.length;
                 if(placeholderWidth > width) width = placeholderWidth;
@@ -342,7 +342,7 @@ var yaju1919 = {
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize();
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * i.val().length;
+            var width = fontSize * (i.val()||'').length;
             if(p.placeholder !== '') {
                 var placeholderWidth = fontSize * p.placeholder.length;
                 if(placeholderWidth > width) width = placeholderWidth;
@@ -456,7 +456,7 @@ var yaju1919 = {
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize(parentNode);
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * i.val().length;
+            var width = fontSize * (i.val()||'').length;
             if(p.placeholder !== '') {
                 var placeholderWidth = fontSize * p.placeholder.length;
                 if(placeholderWidth > width) width = placeholderWidth;
