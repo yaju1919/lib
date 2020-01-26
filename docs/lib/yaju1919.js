@@ -285,17 +285,20 @@ var yaju1919 = {
             i.height(line + "em");
         }
         resizeHeight();
+        function mostWidth(str){ // 最も文字数が多い行の幅
+            return yaju1919.getFontSize() * yaju1919.max(str.split('\n').map(function (v){
+                return v.length;
+            }));
+        }
         function resize(){
             if(p.width !== '') return i.width(p.width);
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize();
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * yaju1919.max(i.val().split('\n').map(function (v){
-                return v.length;
-            }));
+            var width = mostWidth(i.val());
             if(p.placeholder !== '') {
-                var placeholderWidth = fontSize * p.placeholder.length;
-                if(placeholderWidth > width) width = placeholderWidth;
+                var phWidth = mostWidth(p.placeholder);
+                if(phWidth > width) width = phWidth;
             }
             if(width > maxWidth) width = maxWidth;
             i.width(width);
@@ -349,17 +352,20 @@ var yaju1919 = {
         yaju1919.load(p.save, function(v){
             i.val(v);
         });
+        function mostWidth(str){ // 最も文字数が多い行の幅
+            return yaju1919.getFontSize() * yaju1919.max(str.split('\n').map(function (v){
+                return v.length;
+            }));
+        }
         function resize(){
             if(p.width !== '') return i.width(p.width);
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize();
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * yaju1919.max(i.val().split('\n').map(function (v){
-                return v.length;
-            }));
+            var width = mostWidth(i.val());
             if(p.placeholder !== '') {
-                var placeholderWidth = fontSize * p.placeholder.length;
-                if(placeholderWidth > width) width = placeholderWidth;
+                var phWidth = mostWidth(p.placeholder);
+                if(phWidth > width) width = phWidth;
             }
             if(width > maxWidth) width = maxWidth;
             i.width(width);
@@ -468,17 +474,20 @@ var yaju1919 = {
         yaju1919.load(p.save, function(v){
             i.val(v);
         });
+        function mostWidth(str){ // 最も文字数が多い行の幅
+            return yaju1919.getFontSize() * yaju1919.max(str.split('\n').map(function (v){
+                return v.length;
+            }));
+        }
         function resize(){
             if(p.width !== '') return i.width(p.width);
             var maxWidth = $(parentNode).width(),
-                fontSize = yaju1919.getFontSize(parentNode);
+                fontSize = yaju1919.getFontSize();
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * yaju1919.max(getValue().split('\n').map(function (v){
-                return v.length;
-            }));
+            var width = mostWidth(getValue());
             if(p.placeholder !== '') {
-                var placeholderWidth = fontSize * p.placeholder.length;
-                if(placeholderWidth > width) width = placeholderWidth;
+                var phWidth = mostWidth(p.placeholder);
+                if(phWidth > width) width = phWidth;
             }
             if(width > maxWidth) width = maxWidth;
             i.width(width);
