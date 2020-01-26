@@ -192,6 +192,12 @@ var yaju1919 = {
         }
         return ar;
     },
+    removeSaveData: function(key){ // 指定されたキーのデータを削除
+        if(!yaju1919.judgeType(key,"String") || key === '') return false;
+        var thisURL = location.href.split('?')[0] + '|'; // クエリを除く
+        localStorage.removeItem(thisURL + key);
+        return true;
+    },
     save: function(key, value){ // 文字列を保存
         var SaveKey = yaju1919.makeSaveKey(key);
         if(!SaveKey) return false;
