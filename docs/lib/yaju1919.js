@@ -230,7 +230,7 @@ var yaju1919 = {
     },
     getFontSize: function(elm){ // elmのフォントサイズを取得する
         var size = yaju1919.getCSS(elm).fontSize;
-        return Number(size.replace("px",'')) + 1;
+        return Number(size.slice(0,-2)) + 1;
     },
     // HTML要素を追加する
     // これより下の関数の返り値は、入力値を返す関数
