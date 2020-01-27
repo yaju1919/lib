@@ -60,6 +60,9 @@ var yaju1919 = {
     randInt: function(min, max){ // ランダムな整数を返す
         return Math.floor(Math.random() * Math.abs(max - min + 1)) + min;
     },
+    repeat: function(str, num){ // strをnum回繰り返した文字列を返す 
+        return new Array(num + 1).join(str);
+    },
     getTime: function(){ // xx:yy:zz の形式で現在時刻の文字列を返す
         return new Date().toString().match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)[0];
     },
