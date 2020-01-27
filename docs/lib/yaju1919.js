@@ -125,7 +125,7 @@ var yaju1919 = {
             return String.fromCharCode(c.charCodeAt(0) - 0xFEE0);
         });
     },
-    toZan: function(str){ // 半角→全角
+    toZen: function(str){ // 半角→全角
         return str.replace(/[A-Za-z0-9!-~]/g, function(c){
             return String.fromCharCode(c.charCodeAt(0) + 0xFEE0);
         });
