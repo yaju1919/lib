@@ -57,13 +57,13 @@ var yaju1919 = {
     randInt: function(min, max){ // ランダムな整数を返す
         return Math.floor(Math.random() * Math.abs(max - min + 1)) + min;
     },
+    makeArray: function(n){ // 0からn-1までの連続した数値の配列を返す
+        return n ? (new Array(n).join(0).split(0).map(function(v,i){
+            return i;
+        })) : [];
+    },
     randArray: function(array){ // 配列のランダムな要素を返す
         return array[Math.floor(Math.random()*array.length)];
-    },
-    makeArray: function(n){ // 0からn-1までの連続した数値の配列を返す
-        return new Array(n).join(0).split(0).map(function(v,i){
-            return i;
-        });
     },
     repeat: function(str, num){ // strをnum回繰り返した文字列を返す
         return new Array(num + 1).join(str);
