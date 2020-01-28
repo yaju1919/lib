@@ -252,6 +252,8 @@ var yaju1919 = {
             textarea: false, // trueならtextarea要素になる
             width: '', // widthがこの値で固定
             height: '', // heightがこの値で固定(textareaの時のみ有効)
+            readonly: false, // trueならユーザーは編集不可
+            select: false, // trueならクリック時全選択
         });
         var h = $("<div>").appendTo(parentNode);
         if(p.title !== '') h.text(p.title + ':');
@@ -270,6 +272,8 @@ var yaju1919 = {
         .change(change).val(p.value);
         if(p.id !== '') i.attr('id', p.id);
         if(p.class !== '') i.addClass(p.class);
+        if(p.readonly) i.attr("readonly", true);
+        if(p.select) i.click(function(){i.select();});
         yaju1919.load(p.save, function(v){
             i.val(v);
         });
@@ -336,6 +340,8 @@ var yaju1919 = {
             max: Infinity, // 入力可能な最大値
             int: false, // trueなら自動で整数化
             width: '', // widthがこの値で固定
+            readonly: false, // trueならユーザーは編集不可
+            select: false, // trueならクリック時全選択
         });
         var lastInput, h = $("<div>").appendTo(parentNode);
         if(p.title !== '') h.text(p.title + ':');
@@ -352,6 +358,8 @@ var yaju1919 = {
         .change(change).val(p.value);
         if(p.id !== '') i.attr('id', p.id);
         if(p.class !== '') i.addClass(p.class);
+        if(p.readonly) i.attr("readonly", true);
+        if(p.select) i.click(function(){i.select();});
         yaju1919.load(p.save, function(v){
             i.val(v);
         });
