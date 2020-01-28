@@ -58,7 +58,7 @@ var yaju1919 = {
         return Math.floor(Math.random() * Math.abs(max - min + 1)) + min;
     },
     makeArray: function(n){ // 0からn-1までの連続した数値の配列を返す
-        return n ? (new Array(n).join(0).split(0).map(function(v,i){
+        return 0 < n ? (new Array(n).join(0).split(0).map(function(v,i){
             return i;
         })) : [];
     },
@@ -202,31 +202,49 @@ var yaju1919 = {
     getSaveKeys: function(){ // 保存されているキーを配列で取得
         var ar = [], i = 0;
         var thisURL = location.href.split('?')[0] + '|';
-        while(true){
-            var key = localStorage.key(i++);
-            if(!key) break;
-            if(key.indexOf(thisURL)) continue;
-            ar.push(key.replace(thisURL,''));
+        if(window.localStorage){
+            while(true){
+                var key = window.localStorage.key(i++);
+                if(!key) break;
+                if(!key.indexOf(thisURL)) ar.push(key.replace(thisURL,''));
+            }
+        }
+        else {
+            document.cookie.split(';').map(function(v){
+                var key = decodeURIComponent(v.split('=')[0]);
+                if(!key.indexOf(thisURL)) ar.push(key.replace(thisURL,''));
+            });
         }
         return ar;
     },
     removeSaveData: function(key){ // 指定されたキーのデータを削除
-        if(!yaju1919.judgeType(key,"String") || key === '') return false;
-        var thisURL = location.href.split('?')[0] + '|'; // クエリを除く
-        localStorage.removeItem(thisURL + key);
+        var SaveKey = yaju1919.makeSaveKey(key);
+        if(!SaveKey) return false;
+        if(window.localStorage) window.localStorage.removeItem(SaveKey);
+        else document.cookie = encodeURIComponent(SaveKey) + "=; max-age=0";
         return true;
     },
     save: function(key, value){ // 文字列を保存
         var SaveKey = yaju1919.makeSaveKey(key);
         if(!SaveKey) return false;
-        localStorage.setItem(SaveKey, value);
+        if(window.localStorage) window.localStorage.setItem(SaveKey, value);
+        else document.cookie = encodeURIComponent(key) + '=' + encodeURIComponent(value);
         return true;
     },
     load: function(key, callback){ // 保存した文字列の読み込み(callbackの引数に渡される)
         var SaveKey = yaju1919.makeSaveKey(key);
         if(!SaveKey) return false;
-        var data = localStorage.getItem(SaveKey);
-        if(data === null) return false;
+        var data = null;
+        if(window.localStorage){
+            data = window.localStorage.getItem(SaveKey);
+            if(data === null) return false;
+        }
+        else {
+            var key2 = encodeURIComponent(key);
+            var idx = document.cookie.indexOf(key2 + '=') + key2.length + 1;
+            if(idx === -1) return false;
+            data = decodeURIComponent(document.cookie.slice(idx).split(';')[0]);
+        }
         callback(data);
         return true;
     },
