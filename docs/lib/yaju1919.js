@@ -273,8 +273,8 @@ var yaju1919 = {
         if(p.class !== '') i.addClass(p.class);
         if(p.readonly) {
             i.attr("readonly", true).click(function(){
-                i.select();
                 yaju1919.copy(i.val());
+                i.select();
             });
         }
         yaju1919.load(p.save, function(v){
@@ -362,8 +362,8 @@ var yaju1919 = {
         if(p.class !== '') i.addClass(p.class);
         if(p.readonly) {
             i.attr("readonly", true).click(function(){
-                i.select();
                 yaju1919.copy(i.val());
+                i.select();
             });
         }
         yaju1919.load(p.save, function(v){
