@@ -275,6 +275,10 @@ var yaju1919 = {
             i.attr("readonly", true).click(function(){
                 yaju1919.copy(i.val());
                 i.select();
+            }).css({
+                backgroundColor: "#e9e9e9",
+                tabIndex: -1,
+                cursor: "pointer"
             });
         }
         yaju1919.load(p.save, function(v){
@@ -364,6 +368,10 @@ var yaju1919 = {
             i.attr("readonly", true).click(function(){
                 yaju1919.copy(i.val());
                 i.select();
+            }).css({
+                backgroundColor: "#e9e9e9",
+                tabIndex: -1,
+                cursor: "pointer"
             });
         }
         yaju1919.load(p.save, function(v){
