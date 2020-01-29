@@ -629,10 +629,10 @@ var yaju1919 = (function(){
             if(typeof str !== "string") return false; // error
             return str.replace(/(W|X|Y|Z)[^WXYZ]*/g, function(v){
                 var s = v.slice(1);
-                if(v[0] === SIGN[0]) return s;
+                var idx = SIGN.indexOf(v[0]);
+                if(!idx) return s;
                 else {
-                    var digit = SIGN.indexOf(v[0]);
-                    return s.replace(new RegExp(".{" + digit + "}", 'g'), function(n){
+                    return s.replace(new RegExp(".{" + idx + "}", 'g'), function(n){
                         return String.fromCharCode(to58.decode(n));
                     });
                 }
