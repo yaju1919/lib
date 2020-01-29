@@ -631,11 +631,9 @@ var yaju1919 = (function(){
                 var s = v.slice(1);
                 var idx = SIGN.indexOf(v[0]);
                 if(!idx) return s;
-                else {
-                    return s.replace(new RegExp(".{" + idx + "}", 'g'), function(n){
-                        return String.fromCharCode(to58.decode(n));
-                    });
-                }
+                return s.replace(new RegExp(".{" + idx + "}", 'g'), function(n){
+                    return String.fromCharCode(to58.decode(n));
+                });
             });
         };
     })();
