@@ -11,8 +11,10 @@
         "yaju1919",
     ].map(function(v){
         var a = window[v];
-        $("<div>").text(v + ':' + (a ? "OK" : "Error")).appendTo(document.body);
+        $("<div>").text(v + ':' + (a ? "OK" : "Error")).appendTo(h);
     });
+    h.append("<br>");
+    h.append("<br>");
     $("<h2>").text("JSエディタ").appendTo(h);
     function console_log(x,color){
         var str = '';
