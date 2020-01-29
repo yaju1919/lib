@@ -1,11 +1,9 @@
 // https://www.pandanoir.info/entry/2017/09/28/190000
-var getRoman = (function() {
+(function(window, undefined) {
     "use strict";
-
     function isAlphabet(char) {
         return char !== '' && 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789- ,:(){}.・!&%'.indexOf(char) !== -1;
     }; // romanTableには通常の規則性で対応できない文字のみを入れている。
-
     var romanTable = {
         'を': ['wo'],
         'うぁ': ['uxa', 'wha'],
@@ -78,22 +76,22 @@ var getRoman = (function() {
     }; // 基本的なローマ字表を構築する
 
     for (var _i2 = 0, _arr = [
-            ['あいうえお', ''],
-            ['かきくけこ', 'k'],
-            ['さしすせそ', 's'],
-            ['たちつてと', 't'],
-            ['なにぬねの', 'n'],
-            ['はひふへほ', 'h'],
-            ['まみむめも', 'm'],
-            ['やゆよ', 'y'],
-            ['らりるれろ', 'r'],
-            ['わ', 'w'],
-            ['がぎぐげご', 'g'],
-            ['ざじずぜぞ', 'z'],
-            ['だぢづでど', 'd'],
-            ['ばびぶべぼ', 'b'],
-            ['ぱぴぷぺぽ', 'p']
-        ]; _i2 < _arr.length; _i2++) {
+        ['あいうえお', ''],
+        ['かきくけこ', 'k'],
+        ['さしすせそ', 's'],
+        ['たちつてと', 't'],
+        ['なにぬねの', 'n'],
+        ['はひふへほ', 'h'],
+        ['まみむめも', 'm'],
+        ['やゆよ', 'y'],
+        ['らりるれろ', 'r'],
+        ['わ', 'w'],
+        ['がぎぐげご', 'g'],
+        ['ざじずぜぞ', 'z'],
+        ['だぢづでど', 'd'],
+        ['ばびぶべぼ', 'b'],
+        ['ぱぴぷぺぽ', 'p']
+    ]; _i2 < _arr.length; _i2++) {
         var _arr$_i = _arr[_i2],
             hiraganas = _arr$_i[0],
             cons = _arr$_i[1];
@@ -267,5 +265,6 @@ var getRoman = (function() {
 
         return romans;
     };
-    return getRoman;
-})();
+    //-------------------------------------------------------------
+    window.getRoman = getRoman;
+})(window);
