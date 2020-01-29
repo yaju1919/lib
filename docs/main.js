@@ -28,16 +28,16 @@
         ];
         array.push('^' + array.join(''));
         return array.map(str => "[" + str + "]+").join('|');
-    })(), 'g');
+    })(), 'g');*/
     function main(_str, _num){
-        if(typeof _str !== "string") return null;
+        /*if(typeof _str !== "string") return null;
         if (0 < Number(_num) && !isNaN(_num)) {
             var reg = new RegExp('(.|\n){1,' + _num + '}', 'g');
             return _str.match(reg) || null;
         }
-        return _str.match(type_reg) || null;
-    }*/
-    window.WA_KA_CHI_GA_KI = 1;//main;
+        return _str.match(type_reg) || null;*/
+    }
+    window.WA_KA_CHI_GA_KI = main;
 })(window);
     alert(!!window.WA_KA_CHI_GA_KI)
     //--
