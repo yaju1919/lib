@@ -36,4 +36,4 @@ function readBigTextForEachLine(file, callback, chunk_size){
         offset += chunk_size;
     };
     seek();
-}
+};
