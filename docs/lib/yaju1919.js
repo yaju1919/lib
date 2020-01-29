@@ -1,5 +1,5 @@
 (function(window, undefined){
-    var yaju1919 = {
+    var yaju1919 = {};/*
         //------------------------------------------------------------------------------------------------------
         // メタ
         hello: function(){ // このライブラリの関数の説明
@@ -578,7 +578,7 @@
             return yaju1919.addInputBool(front, p);
         }
         //------------------------------------------------------------------------------------------------------
-    };
+    };*/
     /*
     yaju1919.baseN = function(base){ // N進数を作成するクラス,baseは重複のない文字列
         if(typeof base !== "string") return false; // error
@@ -631,17 +631,17 @@
                 }
             }).join('').replace(/(W|X|Y|Z)\1/g,'').replace(/(W|X|Y|Z)(?=(W|X|Y|Z))/g,'').slice(0,-1);
         };*/
-        yaju1919.decode = function(str){ // エンコードされた文字列をデコード
-            if(typeof str !== "string") return false; // error
-            return str.replace(/(W|X|Y|Z)[^WXYZ]*/g, function(v){
-                var s = v.slice(1);
-                var idx = SIGN.indexOf(v[0]);
-                if(!idx) return s;
-                return s.replace(new RegExp(".{" + idx + "}", 'g'), function(n){
-                    return String.fromCharCode(to58.decode(n));
-                });
-            });
-        };
+      //  yaju1919.decode = function(str){ // エンコードされた文字列をデコード
+    //        if(typeof str !== "string") return false; // error
+  //          return str.replace(/(W|X|Y|Z)[^WXYZ]*/g, function(v){
+//                var s = v.slice(1);
+            //    var idx = SIGN.indexOf(v[0]);
+          //      if(!idx) return s;
+        //        return s.replace(new RegExp(".{" + idx + "}", 'g'), function(n){
+      //              return String.fromCharCode(to58.decode(n));
+    //            });
+  //          });
+//        };
     //})();
     //------------------------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------------------------
