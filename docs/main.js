@@ -37,7 +37,7 @@
     console.info = function(x){ console_log(x,"lightblue") };
     $("<button>").text("JSの実行").appendTo(h).click(function(){
         output.empty();
-        var v = input();
+        var v = input.val();
         try {
             console.log((0, eval)(v));
         }
