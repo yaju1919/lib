@@ -11,7 +11,7 @@
         "yaju1919",
     ].map(function(v){
         var a = window[v];
-        $("<div>").text(v + ':' + a ? "OK" : "Error").appendTo(document.body);
+        $("<div>").text(v + ':' + (a ? "OK" : "Error")).appendTo(document.body);
     });
     yaju1919.addInputText(h,{
         title: "てすや"
