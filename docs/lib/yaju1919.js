@@ -603,7 +603,7 @@ var yaju1919 = (function(){
     yaju1919.BaseN = BaseN;
     (function(){
         // yaju1919 encode decode アルゴリズム
-        // 0~9 a~z A~Z → 無圧縮、左端にWを追加する
+        // 0~9 a~z A~V → 無圧縮、左端にWを追加する
         // 58進数の一桁、左端にXを追加する
         // 58進数の二桁、左端にYを追加する
         // 58進数の三桁、左端にZを追加する
