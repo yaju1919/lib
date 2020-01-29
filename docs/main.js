@@ -2,18 +2,17 @@
     'use strict';
     var h = $("<div>").appendTo(document.body);
     $("<h1>",{text:"test"}).appendTo(h);
-    alert(typeof TinySegmenter + typeof getRoman + typeof $);
-    var func1 = (function(){
-        function func2(){}
-        return func2;
-    })();
-    alert(func1);
-    var func3 = (function(){
-        function func3(){}
-        return func3;
-    })();
-    alert(func3);
-    alert("おわり");
+    [
+        "jQuery",
+        "TinySegmenter",
+        "readBigTextForEachLine",
+        "WA_KA_CHI_GA_KI",
+        "getRoman",
+        "yaju1919",
+    ].map(function(v){
+        var a = window[v];
+        $("<div>").text(a).appendTo(document.body);
+    });
     yaju1919.addInputText(h,{
         title: "てすや"
     })
