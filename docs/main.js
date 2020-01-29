@@ -14,6 +14,7 @@
         $("<div>").text(v + ':' + (a ? "OK" : "Error")).appendTo(document.body);
     });
     //--
+    alert("22:48");
     (function(window, undefined){
     alert("yaju1919-0");
     var yaju1919 = {
@@ -32,7 +33,10 @@
             return sstr;
         },
     };
+        window.yaju1919 = yaju1919;
     })();
+    alert("result");
+    alert(window.yaju1919);
     //--
     yaju1919.addInputText(h,{
         title: "てすや"
