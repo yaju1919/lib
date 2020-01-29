@@ -11,7 +11,9 @@
             '\n'
         ];
         array.push('^' + array.join(''));
-        return array.map(str => "[" + str + "]+").join('|');
+        return array.map(function(str){
+            return "[" + str + "]+";
+        }).join('|');
     })(), 'g');
     function main(_str, _num){
         if(typeof _str !== "string") return null;
