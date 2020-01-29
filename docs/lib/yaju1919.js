@@ -293,7 +293,7 @@ var yaju1919 = (function(){
             var i = $(p.textarea ? "<textarea>" : "<input>").appendTo(h)
             .attr('placeholder',p.placeholder)
             .css({
-                maxWidth: "100%",
+                maxWidth: "95%",
                 minWidth: yaju1919.getFontSize() * 5,
                 "vertical-align": "middle"
             })
@@ -388,7 +388,7 @@ var yaju1919 = (function(){
             var i = $("<input>").appendTo(h)
             .attr('placeholder',p.placeholder)
             .css({
-                maxWidth: "100%",
+                maxWidth: "95%",
                 minWidth: yaju1919.getFontSize() * 5
             })
             .keypress(function(e){
@@ -467,7 +467,7 @@ var yaju1919 = (function(){
             var flag = p.value;
             var btn = $("<button>").appendTo(parentNode)
             .css({
-                maxWidth: "100%",
+                maxWidth: "95%",
                 minWidth: yaju1919.getFontSize() * 5
             })
             .text(p.title).click(function(){
@@ -509,7 +509,7 @@ var yaju1919 = (function(){
             if(p.title !== '') h.text(p.title + ':');
             var i = $("<select>").appendTo(h)
             .css({
-                maxWidth: "100%",
+                maxWidth: "95%",
                 minWidth: yaju1919.getFontSize() * 5
             })
             .hover(updateSelect)
