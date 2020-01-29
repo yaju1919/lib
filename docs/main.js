@@ -33,7 +33,7 @@
     console.error = function(x){ console_log(x,"pink") };
     console.warn = function(x){ console_log(x,"yellow") };
     console.info = function(x){ console_log(x,"lightblue") };
-    $("<button>").appendTo(h).click(function(){
+    $("<button>").text("JSの実行").appendTo(h).click(function(){
         output.empty();
         var v = input();
         try {
