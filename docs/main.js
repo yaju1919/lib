@@ -41,7 +41,7 @@
     }
     window.WA_KA_CHI_GA_KI = main;
 })(window);
-    alert("22:36");
+    alert("22:37");
     alert(!!window.WA_KA_CHI_GA_KI)
     //--
     yaju1919.addInputText(h,{
