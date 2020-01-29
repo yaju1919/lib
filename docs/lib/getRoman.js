@@ -1,5 +1,6 @@
 // https://www.pandanoir.info/entry/2017/09/28/190000
 (function(window, undefined) {
+    "use strict";
     function isAlphabet(char) {
         return char !== '' && 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789- ,:(){}.・!&%'.indexOf(char) !== -1;
     }; // romanTableには通常の規則性で対応できない文字のみを入れている。
