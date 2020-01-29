@@ -46,6 +46,14 @@ var yaju1919 = (function(){
         },
         //------------------------------------------------------------------------------------------------------
         // 闇鍋
+        try: function(func){ // 失敗しても処理が止まるらないようにfuncを実行する
+            try {
+                func();
+            }
+            catch (err) {
+                console.error(err);
+            }
+        },
         max: function(array){ // 配列から最大値を求める
             return array.reduce(function(a,b){
                 return a > b ? a : b;
@@ -354,7 +362,7 @@ var yaju1919 = (function(){
                 i.val(v);
                 yaju1919.save(p.save, v);
             }
-            change();
+            yaju1919.try(change);
             return function(){
                 return i.val();
             };
@@ -441,7 +449,7 @@ var yaju1919 = (function(){
                 lastInput = v;
                 yaju1919.save(p.save, v);
             }
-            change();
+            yaju1919.try(change);
             return function(){
                 return Number(i.val());
             };
@@ -479,7 +487,7 @@ var yaju1919 = (function(){
                 check.prop("checked", flag);
                 yaju1919.save(p.save, flag ? '1' : '0');
             }
-            change();
+            yaju1919.try(change);
             if(p.width !== '') return btn.width(p.width);
             return function(){
                 return flag;
@@ -552,7 +560,7 @@ var yaju1919 = (function(){
                 i.val(v);
                 yaju1919.save(p.save, v);
             }
-            change();
+            yaju1919.try(change);
             return getValue;
         },
         addHideArea: function(parentNode, param){ // ボタンで表示を切り替えられる非表示エリアを追加
