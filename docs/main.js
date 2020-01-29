@@ -15,8 +15,9 @@
     });
     //--
     (function(window,undefined){
-    /*var type_reg = new RegExp((function(){
-        var array = [
+    var type_reg = new RegExp((function(){
+        return 1;
+        /*var array = [
             'ぁ-ん',
             'ァ-ヴーｱ-ﾝﾞｰ',
             '一-龠々〆ヵヶ',
@@ -27,8 +28,8 @@
             '\n'
         ];
         array.push('^' + array.join(''));
-        return array.map(str => "[" + str + "]+").join('|');
-    })(), 'g');*/
+        return array.map(str => "[" + str + "]+").join('|');*/
+    })(), 'g');
     function main(_str, _num){
         if(typeof _str !== "string") return null;
         if (0 < Number(_num) && !isNaN(_num)) {
