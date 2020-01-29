@@ -572,7 +572,7 @@ var yaju1919 = (function(){
         }
         //------------------------------------------------------------------------------------------------------
     };
-    function BaseN(base){ // N進数を作成するクラス
+    yaju1919.baseN = function(base){ // N進数を作成するクラス
         if(typeof base !== "string") return false; // error
         var len = base.length;
         if(len < 2) return false; // error
@@ -600,14 +600,13 @@ var yaju1919 = (function(){
             base: base
         };
     }
-    yaju1919.BaseN = BaseN;
     (function(){
         // yaju1919 encode decode アルゴリズム
         // 0~9 a~z A~V → 無圧縮、左端にWを追加する
         // 58進数の一桁、左端にXを追加する
         // 58進数の二桁、左端にYを追加する
         // 58進数の三桁、左端にZを追加する
-        var to58 = BaseN([ // 58進数
+        var to58 = yaju1919.baseN([ // 58進数
             '0123456789',
             'abcdefghijklmnopqrstuvwxyz',
             'ABCDEFGHIJKLMNOPQRSTUV',
