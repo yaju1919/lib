@@ -16,8 +16,7 @@
     //--
     (function(window,undefined){
     var type_reg = new RegExp((function(){
-        return 1;
-        /*var array = [
+        var array = [
             'ぁ-ん',
             'ァ-ヴーｱ-ﾝﾞｰ',
             '一-龠々〆ヵヶ',
@@ -27,6 +26,8 @@
             '　 ',
             '\n'
         ];
+        return 1;
+        /*
         array.push('^' + array.join(''));
         return array.map(str => "[" + str + "]+").join('|');*/
     })(), 'g');
