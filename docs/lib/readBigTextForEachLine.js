@@ -1,5 +1,6 @@
 // https://qiita.com/jiyu/items/3e29959758de497850b9
 function readBigTextForEachLine(file, callback, chunk_size){
+    "use strict";
     chunk_size = chunk_size || 1024;
     var offset = 0,
         text = "",
