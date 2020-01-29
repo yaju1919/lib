@@ -3,10 +3,16 @@
     var h = $("<div>").appendTo(document.body);
     $("<h1>",{text:"test"}).appendTo(h);
     alert(typeof TinySegmenter + typeof getRoman + typeof $);
-    var unk = (function(){
-return "うんこ";
+    var func1 = (function(){
+        function func2(){}
+return func2;
 })();
-    alert(unk);
+    alert(func1);
+    var func3 = (function(){
+        function func3(){}
+return func3;
+})();
+    alert(fff);
     alert("おわり");
     yaju1919.addInputText(h,{
         title: "てすや"
