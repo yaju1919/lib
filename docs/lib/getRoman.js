@@ -265,6 +265,5 @@
 
         return romans;
     };
-    //-------------------------------------------------------------
     window.getRoman = getRoman;
 })(window);
