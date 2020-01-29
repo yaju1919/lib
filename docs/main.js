@@ -30,16 +30,16 @@
         return array.map(str => "[" + str + "]+").join('|');
     })(), 'g');*/
     function main(_str, _num){
-        /*if(typeof _str !== "string") return null;
+        if(typeof _str !== "string") return null;
         if (0 < Number(_num) && !isNaN(_num)) {
             var reg = new RegExp('(.|\n){1,' + _num + '}', 'g');
             return _str.match(reg) || null;
         }
-        return _str.match(type_reg) || null;*/
+        return _str.match(type_reg) || null;
     }
     window.WA_KA_CHI_GA_KI = main;
 })(window);
-    alert("22:34");
+    alert("22:35");
     alert(!!window.WA_KA_CHI_GA_KI)
     //--
     yaju1919.addInputText(h,{
