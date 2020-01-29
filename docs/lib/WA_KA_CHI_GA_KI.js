@@ -1,4 +1,5 @@
 (function(window,undefined){
+    "use strict";
     var type_reg = new RegExp((function(){
         var array = [
             'ぁ-ん',
