@@ -1,4 +1,4 @@
-var WA_KA_CHI_GA_KI = (function(){
+(function(window,undefined){
     var type_reg = new RegExp((function(){
         var array = [
             'ぁ-ん',
@@ -13,7 +13,7 @@ var WA_KA_CHI_GA_KI = (function(){
         array.push('^' + array.join(''));
         return array.map(str => "[" + str + "]+").join('|');
     })(), 'g');
-    return function(_str, _num){
+    function main(_str, _num){
         if(typeof _str !== "string") return null;
         if (0 < Number(_num) && !isNaN(_num)) {
             var reg = new RegExp('(.|\n){1,' + _num + '}', 'g');
@@ -21,4 +21,5 @@ var WA_KA_CHI_GA_KI = (function(){
         }
         return _str.match(type_reg) || null;
     }
-})();
+    window.WA_KA_CHI_GA_KI = main;
+})(window);
