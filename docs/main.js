@@ -40,7 +40,7 @@
     }
     window.WA_KA_CHI_GA_KI = main;
 })(window);
-    alert("22:35");
+    alert("22:36");
     alert(!!window.WA_KA_CHI_GA_KI)
     //--
     yaju1919.addInputText(h,{
