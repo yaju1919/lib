@@ -15,7 +15,7 @@
     });
     //--
     (function(window,undefined){
-    var type_reg = new RegExp((function(){
+    /*var type_reg = new RegExp((function(){
         var array = [
             'ぁ-ん',
             'ァ-ヴーｱ-ﾝﾞｰ',
@@ -36,8 +36,8 @@
             return _str.match(reg) || null;
         }
         return _str.match(type_reg) || null;
-    }
-    window.WA_KA_CHI_GA_KI = main;
+    }*/
+    window.WA_KA_CHI_GA_KI = 1;//main;
 })(window);
     alert(!!window.WA_KA_CHI_GA_KI)
     //--
