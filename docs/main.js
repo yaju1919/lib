@@ -34,7 +34,7 @@
         },
     };
         window.yaju1919 = yaju1919;
-    })();
+    })(window);
     alert("result");
     alert(window.yaju1919);
     //--
