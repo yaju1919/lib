@@ -59,10 +59,10 @@ var yaju1919 = (function(){
         randInt: function(min, max){ // ランダムな整数を返す
             return Math.floor(Math.random() * Math.abs(max - min + 1)) + min;
         },
-        makeArray: function(n){ // 0からn-1までの連続した数値の配列を返す
-            if(isNaN(n)) return [];
+        makeArray: function(num){ // 0からn-1までの連続した数値の配列を返す
+            if(isNaN(num)) return [];
             var ar = [];
-            for(var i = 0; i < n; i++) ar.push(i);
+            for(var i = 0; i < num; i++) ar.push(i);
             return ar;
         },
         randArray: function(array){ // 配列のランダムな要素を返す
@@ -214,7 +214,7 @@ var yaju1919 = (function(){
             }
             else {
                 document.cookie.split(';').map(function(v){
-                    var key = decodeURIComponent(v.split('=')[0]);
+                    var key = yaju1919.decode(v.split('=')[0]);
                     if(!key.indexOf(thisURL)) ar.push(key.replace(thisURL,''));
                 });
             }
@@ -224,14 +224,14 @@ var yaju1919 = (function(){
             var SaveKey = yaju1919.makeSaveKey(key);
             if(!SaveKey) return false;
             if(window.localStorage) window.localStorage.removeItem(SaveKey);
-            else document.cookie = encodeURIComponent(SaveKey) + "=; max-age=0";
+            else document.cookie = yaju1919.encode(SaveKey) + "=; max-age=0";
             return true;
         },
         save: function(key, value){ // 文字列を保存
             var SaveKey = yaju1919.makeSaveKey(key);
             if(!SaveKey) return false;
             if(window.localStorage) window.localStorage.setItem(SaveKey, value);
-            else document.cookie = encodeURIComponent(key) + '=' + encodeURIComponent(value);
+            else document.cookie = yaju1919.encode(SaveKey) + '=' + yaju1919.encode(value);
             return true;
         },
         load: function(key, callback){ // 保存した文字列の読み込み(callbackの引数に渡される)
@@ -243,10 +243,10 @@ var yaju1919 = (function(){
                 if(data === null) return false;
             }
             else {
-                var key2 = encodeURIComponent(key);
+                var key2 = yaju1919.encode(SaveKey);
                 var idx = document.cookie.indexOf(key2 + '=') + key2.length + 1;
                 if(idx === -1) return false;
-                data = decodeURIComponent(document.cookie.slice(idx).split(';')[0]);
+                data = yaju1919.decode(document.cookie.slice(idx).split(';')[0]);
             }
             callback(data);
             return true;
@@ -572,12 +572,11 @@ var yaju1919 = (function(){
         }
         //------------------------------------------------------------------------------------------------------
     };
-    yaju1919.baseN = function(base){ // N進数を作成するクラス
+    yaju1919.baseN = function(base){ // N進数を作成するクラス,baseは重複のない文字列
         if(typeof base !== "string") return false; // error
         var len = base.length;
         if(len < 2) return false; // error
         function encode(num){ // 10進数をN進数に変換
-            if(isNaN(num)) return NaN;
             var str = "", v = num;
             if(!v) return base[0];
             while(v){
@@ -599,10 +598,9 @@ var yaju1919 = (function(){
             decode: decode,
             base: base
         };
-    }
+    };
     (function(){
-        // yaju1919 encode decode アルゴリズム
-        // 0~9 a~z A~V → 無圧縮、左端にWを追加する
+        // 0~9 a~z A~V → 無変換、左端にWを追加する
         // 58進数の一桁、左端にXを追加する
         // 58進数の二桁、左端にYを追加する
         // 58進数の三桁、左端にZを追加する
