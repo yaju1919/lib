@@ -14,29 +14,11 @@
         $("<div>").text(v + ':' + (a ? "OK" : "Error")).appendTo(document.body);
     });
     //--
-    alert("22:48");
-    (function(window, undefined){
-    alert("yaju1919-0");
-    var yaju1919 = {
-        //------------------------------------------------------------------------------------------------------
-        // メタ
-        hello: function(){ // このライブラリの関数の説明
-            var sstr = '';
-            for(var k in yaju1919) {
-                var str = String(yaju1919[k]);
-                var agm = str.match(/function.*?(\(.*?\))/);
-                agm = agm ? agm[1] : '<not function>';
-                var cmt = str.match(/\/\/.*\n/);
-                cmt = cmt ? cmt[0] : '';
-                sstr += [k, agm, cmt].join(' ');
-            }
-            return sstr;
-        },
-    };
-        window.yaju1919 = yaju1919;
-    })(window);
-    alert("result");
-    alert(window.yaju1919);
+    alert("23:42");
+    var list = ['a' , 'b', ]; // →　要素３個のarrayが生成される。
+    alert(list);
+    var obj = { a : 1, b : 2, }; // → 文法エラー
+    alert(obj);
     //--
     yaju1919.addInputText(h,{
         title: "てすや"
