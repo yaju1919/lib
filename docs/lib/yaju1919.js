@@ -269,6 +269,14 @@
             var size = yaju1919.getCSS(elm).fontSize;
             return Number(size.slice(0,-2)) + 1;
         },
+        getRGB: function(color){ // color文字列をRGBの配列にして返す。
+            var elm = $("<div>").appendTo(document.body).css("color",color);
+            var m = yaju1919.getCSS(elm).color.match(/[0-9]+/g).map(function(n){
+                return Number(n);
+            });
+            elm.remove();
+            return m;
+        },
         // HTML要素を追加する
         // これより下の関数の返り値は、入力値を返す関数
         addInputText: function(parentNode, param){ // 文字列入力欄を追加
