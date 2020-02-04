@@ -278,14 +278,14 @@
             return m;
         },
         setBgImage: (function(){
-            var cover;
-            return function(url,option){ // 背景画像を設定する。
-                var p = yaju1919.setDefaultValue(option,{
+            var elm;
+            return function(url, cover){ // 背景画像を設定する。
+                var p = yaju1919.setDefaultValue(cover,{
                     color: "white",
                     opacity: 0.8 // 透過度
                 });
-                if(cover) cover.remove();
-                cover = $("<div>").appendTo($("body")).css({
+                if(!elm) elm = $("<div>").appendTo($("body"));
+                elm.css({
                     zIndex: -114514,
                     background: "rgba(" + yaju1919.getRGB(p.color).join(',') + "," + p.opacity + ")",
                     position: "fixed",
@@ -308,40 +308,68 @@
         //------------------------------------------------------------------------------------------------------
     };
     //------------------------------------------------------------------------------------------------------
-    function _setCommon(p,input){ // Input
-        if(p.id !== '') input.attr('id', p.id);
-        if(p.class !== '') input.addClass(p.class);
-        input.attr('placeholder',p.placeholder).css({
+    //***********************************************************************************************************
+    //***** private関数群 ******************************************************************************************************
+    // 要素の属性の設定
+    function _setAttr(p, elm){ // p: パラメータ, elm: 要素
+        if(p.id !== '') elm.attr('id', p.id);
+        if(p.class !== '') elm.addClass(p.class);
+        elm.attr('placeholder',p.placeholder).css({
             maxWidth: "95%",
             minWidth: yaju1919.getFontSize() * 5,
             "vertical-align": "middle"
         });
-        function mostLongLine(str){ // 文字列の中で最も長い行の文字数
-            return yaju1919.max(str.split('\n').map(function (v){
-                return v.length;
-            }));
-        }
+
+    }
+    // リサイズ処理
+    function _setResize(p, elm, parentNode, func){ // p: パラメータ, elm: 要素, func: 要素の中に表示する文字列を返す関数
         function resize(){
-            if(p.width !== '') return input.width(p.width);
+            function mostLongLine(str){ // 文字列の中で最も長い行の文字数
+                return yaju1919.max(str.split('\n').map(function (v){
+                    return v.length;
+                }));
+            }
+            if(p.width !== '') return elm.width(p.width);
             var maxWidth = $(parentNode).width(),
                 fontSize = yaju1919.getFontSize();
             if(p.title !== '') maxWidth -= fontSize * (p.title.length + 1);
-            var width = fontSize * mostLongLine(input.val());
+            var width = fontSize * mostLongLine(func());
             if(p.placeholder !== '') {
                 var phWidth = fontSize * mostLongLine(p.placeholder);
                 if(phWidth > width) width = phWidth;
             }
             if(width > maxWidth) width = maxWidth;
-            input.width(width);
+            elm.width(width);
         }
         resize();
         $(window).resize(resize);
+        elm.keyup(resize).click(resize);
     }
-    function _setCommonInput(parentNode, p, input){ // private関数
+    // リサイズ処理(高さ)
+    function _resizeHeight(p, elm, parentNode, func){ // p: パラメータ, elm: 要素, func: 要素の中に表示する文字列を返す関数
+        function resize(){ // 高さの自動調整
+            if(!p.textarea) return;
+            if(p.height !== '') return elm.height(p.height);
+            var line = func().split('\n').length;
+            var line_p = p.placeholder.split('\n').length;
+            if(line < line_p) line = line_p;
+            // If the string length is too long
+            var fontSize = yaju1919.getFontSize(),
+                width = $(parentNode).width();
+            func().split('\n').forEach(function(v){
+                line += Math.floor((v.length * fontSize) / width);
+            });
+            elm.height(line + "em");
+        }
+        resize();
+        $(window).resize(resize);
+        elm.keyup(resize).click(resize);
+    }
+    function _setChange(){
+    }
+    function _setCommonInput(p, elm, parentNode){ // input要素共通の
         var h = $("<div>").appendTo(parentNode);
         if(p.title !== '') h.text(p.title + ':');
-        input
-            .keyup(resize).click(resize).val(p.value);
         if(p.readonly) {
             input.attr("readonly", true).click(function(){
                 yaju1919.copy(input.val());
@@ -352,10 +380,15 @@
                 cursor: "pointer"
             });
         }
+        input.val(p.value).keypress(function(e){
+            if(e.key === 'Enter') p.enter();
+        });
         yaju1919.load(p.save, function(v){
             input.val(v);
         });
     }
+    //***********************************************************************************************************
+    //***********************************************************************************************************
     // HTML要素を追加する, 関数の返り値は、入力値を返す関数
     yaju1919.addInputText = function(parentNode, param){ // 文字列入力欄を追加
         var p = yaju1919.setDefaultValue(param,{
@@ -374,30 +407,14 @@
             height: '', // heightがこの値で固定(textareaの時のみ有効)
             readonly: false, // trueならユーザーは編集不可&クリック時全選択&コピー
         });
-
-        var input = $(p.textarea ? "<textarea>" : "<input>")
-        .keyup(resizeHeight).click(resizeHeight)
-        .keypress(function(e){
-            if(e.key === 'Enter') p.enter();
-        });
-        _setCommon(parentNode, p, input);
-
-        function resizeHeight(){ // 高さの自動調整
-            if(!p.textarea) return;
-            if(p.height !== '') return input.height(p.height);
-            var line = input.val().split('\n').length;
-            var line_p = p.placeholder.split('\n').length;
-            if(line < line_p) line = line_p;
-            // If the string length is too long
-            var fontSize = yaju1919.getFontSize(),
-                width = $(parentNode).width();
-            input.val().split('\n').forEach(function(v){
-                line += Math.floor((v.length * fontSize) / width);
-            });
-            input.height(line + "em");
+        function getValue(){
+            return elm.val();
         }
-        resizeHeight();
-        $(window).resize(resizeHeight);
+        var elm = $(p.textarea ? "<textarea>" : "<input>");
+        _setAttr(p, elm);
+        _setResize(p, elm, getValue);
+        _resizeHeight(p, elm, getValue);
+        _setCommonInput(p, elm, parentNode);
 
         function change(){
             var v = input.val().trim();
@@ -411,9 +428,7 @@
         input.change(change);
         yaju1919.try(change);
 
-        return function(){
-            return input.val();
-        };
+        return getValue;
     };
 
     yaju1919.addInputNumber = function(parentNode, param){ // 数値入力欄を追加
