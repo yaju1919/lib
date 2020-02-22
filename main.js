@@ -64,6 +64,6 @@
     });
     var input = $("<textarea>").appendTo(h.append("<br>")).click(function(){
         $(this).height(($(this).val().split('\n').length + 2) * 14);
-    });
+    }).width("90%");
     var output = $("<div>").appendTo(h);
 })();
