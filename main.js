@@ -62,6 +62,8 @@
             $("#input").val(r);
         })
     });
-    var input = $("<textarea>").appendTo(h.append("<br>")).attr("id","input");
+    var input = $("<textarea>").appendTo(h.append("<br>")).attr("id","input").click(function(){
+        $(this).height(($(this).val().split('\n').length + 2) * 14);
+    });
     var output = $("<div>").appendTo(h);
 })();
