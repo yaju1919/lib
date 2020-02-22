@@ -54,15 +54,15 @@
     });
     addBtn("pageのソースコードを取得",function(){
         $.get("https://raw.githubusercontent.com/yaju1919/page/master/main.js",function(r){
-            $("#input").val(r);
-        })
+            input.val(r).click();
+        });
     });
     addBtn("yaju1919.jsのソースコードを取得",function(){
         $.get("https://yaju1919.github.io/lib/lib/yaju1919.js",function(r){
-            $("#input").val(r);
-        })
+            input.val(r).click();
+        });
     });
-    var input = $("<textarea>").appendTo(h.append("<br>")).attr("id","input").click(function(){
+    var input = $("<textarea>").appendTo(h.append("<br>")).click(function(){
         $(this).height(($(this).val().split('\n').length + 2) * 14);
     });
     var output = $("<div>").appendTo(h);
