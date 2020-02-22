@@ -20,6 +20,10 @@
         var str = '';
         switch(typeof x){
             case "object":
+                if(a.message){
+                    str = String(x);
+                    break;
+                }
                 str = '{' + Object.keys(x).map(function(k){
                     return k + ':' + String(x[k])
                 }).join(',') + '}';
