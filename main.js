@@ -20,7 +20,7 @@
         var str = '';
         switch(typeof x){
             case "object":
-                if(a.message){
+                if(x.message){
                     str = String(x);
                     break;
                 }
@@ -39,7 +39,10 @@
     console.error = function(x){ console_log(x,"pink") };
     console.warn = function(x){ console_log(x,"yellow") };
     console.info = function(x){ console_log(x,"lightblue") };
-    $("<button>").text("JSの実行").appendTo(h).click(function(){
+    function addBtn(title, func){
+        return $("<button>").text(title).appendTo(h).click(func);
+    };
+    addBtn("JSの実行",function(){
         output.empty();
         var v = input.val();
         try {
@@ -49,6 +52,16 @@
             console.error(e);
         }
     });
-    var input = $("<textarea>").appendTo(h);
+    addBtn("pageのソースコードを取得",function(){
+        $.get("https://raw.githubusercontent.com/yaju1919/page/master/main.js",function(r){
+            $("#input").val(r);
+        })
+    });
+    addBtn("yaju1919.jsのソースコードを取得",function(){
+        $.get("https://yaju1919.github.io/lib/lib/yaju1919.js",function(r){
+            $("#input").val(r);
+        })
+    });
+    var input = $("<textarea>").appendTo(h).attr("id","input");
     var output = $("<div>").appendTo(h);
 })();
