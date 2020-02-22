@@ -40,7 +40,7 @@
     console.warn = function(x){ console_log(x,"yellow") };
     console.info = function(x){ console_log(x,"lightblue") };
     function addBtn(title, func){
-        return $("<button>").text(title).appendTo(h).click(func);
+        return $("<button>").text(title).appendTo(h.append("<br>")).click(func);
     };
     addBtn("JSの実行",function(){
         output.empty();
@@ -62,6 +62,6 @@
             $("#input").val(r);
         })
     });
-    var input = $("<textarea>").appendTo(h).attr("id","input");
+    var input = $("<textarea>").appendTo(h.append("<br>")).attr("id","input");
     var output = $("<div>").appendTo(h);
 })();
