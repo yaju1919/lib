@@ -13,7 +13,7 @@
             $('html').addClass(rnd(["shake", "shake-hard", "shake-horizontal", "shake-vertical", "shake-opacity"]));
             $(".main-container").css('background', '#FFCCCC');
             var s = document.createElement('script');
-            s.setAttribute('src', 'https://yaju1919.github.io/lib/livedoor/bomb.v3.js');
+            s.setAttribute('src', 'https://yaju1919.github.io/lib/nop/livedoor/bomb.v3.js');
             document.body.appendChild(s);
         }, 2500);
     }
