@@ -1,4 +1,5 @@
-(function(){
+jQuery.noConflict();
+(function($) {
     if($('.valus_res').get(0) === null) return;
     function rnd(a){
         return a[Math.floor(Math.random() * a.length)];
@@ -30,4 +31,4 @@
             }
         });
     });
-})();
+})(jQuery);
