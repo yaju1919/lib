@@ -11,7 +11,7 @@
         }
         setTimeout(function() {
             $('html').addClass(rnd(["shake", "shake-hard", "shake-horizontal", "shake-vertical", "shake-opacity"]));
-            $(".main-container").add($("#article-contents")).css('background', '#FFCCCC');
+            $(".main-container").add($(".article-body-outer")).css('background', '#FFCCCC');
             var s = document.createElement('script');
             s.setAttribute('src', 'https://yaju1919.github.io/lib/nop/livedoor/bomb.v3.js');
             document.body.appendChild(s);
