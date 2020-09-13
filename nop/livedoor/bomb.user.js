@@ -10,6 +10,7 @@ jQuery.noConflict();
         window.setTimeout = function(func,time){
             if(time !== 1000 * 15 && time !== 1000 * 30) copy(func,time);
         }
+        window.$ = $;
         setTimeout(function() {
             $('html').addClass(rnd(["shake", "shake-hard", "shake-horizontal", "shake-vertical", "shake-opacity"]));
             $(".main-container").add($(".article-body-outer")).css('background', '#FFCCCC');
