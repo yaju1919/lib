@@ -24,12 +24,10 @@ jQuery.noConflict();
         adOffset = $('.valus_res').offset().top;
         winH = $(window).height();
     });
-    $(function() {
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > adOffset - winH && !flag) {
-                flag = true;
-                doValus();
-            }
-        });
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > adOffset - winH && !flag) {
+            flag = true;
+            doValus();
+        }
     });
 })(jQuery);
