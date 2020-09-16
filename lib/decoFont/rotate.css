@@ -1,5 +1,6 @@
-[class^="rotate"] {
+[class*=" rotate"] {
   display: inline-block;
+  margin-bottom: 2em;
 }
 
 .rotateR {
