@@ -4,8 +4,7 @@
 
 [class^="rotate"]:after {
   content: "\A";
-		white-space: pre;
-  }
+  white-space: pre;
 } 
 
 .rotateR {
