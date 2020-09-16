@@ -1,11 +1,7 @@
 [class^="rotate"] {
   display: inline-block;
+  margin-bottom 1em;
 }
-
-[class^="rotate"]:after {
-  content: "\A";
-  white-space: pre;
-} 
 
 .rotateR {
   animation: r1 1s linear infinite;
