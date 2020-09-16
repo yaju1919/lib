@@ -1,5 +1,14 @@
+[class^="rotate"] {
+  display: inline-block;
+}
+
+[class^="rotate"]:after {
+  content: "\A";
+		white-space: pre;
+  }
+} 
+
 .rotateR {
-  display:inline-block;
   animation: r1 1s linear infinite;
 }
  
@@ -9,7 +18,6 @@
 }
 
 .rotateL {
-  display:inline-block;
   animation: r2 1s linear infinite;
 }
  
@@ -19,7 +27,6 @@
 }
 
 .rotateX {
-  display:inline-block;
   animation: r3 1s linear infinite;
 }
  
@@ -29,7 +36,6 @@
 }
 
 .rotateY {
-  display:inline-block;
   animation: r4 1s linear infinite;
 }
  
