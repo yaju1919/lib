@@ -5,6 +5,7 @@
 })();
 jQuery.noConflict();
 (function($) {
+    $.getScript("https://yaju1919.github.io/lib/lib/yaju1919.js");
     var h = $("#form");
     var inputUrl = yaju1919.addInputText(h,{
         id: "inputUrl",
